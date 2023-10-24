@@ -21,7 +21,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json  
-          # git add .       
+          git add .       
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/release-${{inputs.release_version}}
       
