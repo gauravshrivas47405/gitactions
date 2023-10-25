@@ -35,11 +35,11 @@ jobs:
         with:
           fallback: 1
       
-      # - uses: rishabhgupta/split-by@v1
-      #   id: split
-      #   with:
-      #     string: '${{steps.previoustag.outputs.tag}}'
-      #     split-by: '_rc'
+      - uses: rishabhgupta/split-by@v1
+        id: split
+        with:
+          string: '${{steps.previoustag.outputs.tag}}'
+          split-by: '_rc'
 
       - name: Install dependencies
         run: npm i @actions/core @actions/github
@@ -57,8 +57,8 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              # ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}+1',
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs}}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}+1',
+              # ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs}}',
               sha: context.sha
             })
 
