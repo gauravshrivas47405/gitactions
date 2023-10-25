@@ -1,16 +1,54 @@
-name: Greetings
+name: Create Release Branch
 
-on: [pull_request_target, issues]
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Version no of release'
+        required: true
 
 jobs:
-  greeting:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
+
     steps:
-    - uses: actions/first-interaction@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: "Message that will be displayed on users' first issue"
-        pr-message: "Message that will be displayed on users' first pull request"
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: Create Release Branch
+        run: |
+          git checkout -b release/${{inputs.release_version}}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+          git add .
+          git commit -m "Automated commit by GitHub Actions to update version name" -a
+          git push --set-upstream origin release/${{inputs.release_version}}
+          echo "::Release branch creadted successfully"
+
+      - name: Create tag
+        uses: actions/github-script@v5
+        
+        with:
+          
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{github ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r | head -1}}',
+              sha: context.sha,
+              version_tag_prefix: 'v'
+            })
+      # - name: Create Release Tags
+      #   uses: christophebedard/tag-version-commit@v1
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     body: |
+      #       Changes in this Release
+      #       - First Change
+      #       - Second Change
+      #     draft: false
+      #     prerelease: false
+      #     version_tag_prefix: 'v'
