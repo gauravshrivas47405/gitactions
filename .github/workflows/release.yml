@@ -33,11 +33,11 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release${{inputs.release_version}}_rc${{steps.version.outputs.new_tag}}',
+              ref: 'refs/tags/release${{inputs.release_version}}_rc',
               sha: context.sha
-              
             })
-        
+          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
       # - name: Create Release Tags
       #   uses: christophebedard/tag-version-commit@v1
       #   with:
