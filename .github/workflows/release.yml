@@ -39,7 +39,6 @@ jobs:
         id: split
         with:
           msg: '/_rc'
-
       - name: Create tag
         uses: actions/github-script@v5
 
