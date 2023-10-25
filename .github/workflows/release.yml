@@ -49,7 +49,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}${{steps.split.outputs._1}}',
               sha: context.sha
             })
 
