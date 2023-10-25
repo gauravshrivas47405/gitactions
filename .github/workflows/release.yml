@@ -25,7 +25,7 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted"
-          echo "::Tags info" ${{git describe --abbrev=0}}
+          echo "::Tags info" git describe --abbrev=0
 
       - name: Create tag
         uses: actions/github-script@v5
