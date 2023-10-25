@@ -49,10 +49,9 @@ jobs:
         uses: ./
         with:
           gitTags: '${{steps.previoustag.outputs.tag}}'
-      
+        
       - name: Create tag
         uses: actions/github-script@v5
-          echo "${{steps.latestTag.outputs}}"
         with:
           script: |
             github.rest.git.createRef({
