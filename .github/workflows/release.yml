@@ -26,16 +26,26 @@ jobs:
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
 
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1.00.0
+      - name: 'Get next minor version'
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1"
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+
       - name: Create tag
         uses: actions/github-script@v5
         
         with:
-          
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{ steps.previoustag.outputs.tag }}',
               sha: context.sha
             })
       # - name: Create Release Tags
