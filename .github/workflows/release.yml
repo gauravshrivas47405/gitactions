@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Create Release Branch
         run: |
@@ -26,7 +26,7 @@ jobs:
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: 'Get Previous tag'
