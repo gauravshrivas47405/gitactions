@@ -25,19 +25,19 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
 
-          name: 'tag'
-on:
-  push:
-    branches:
-      - 'release/*'
-jobs:
-  tag:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: christophebedard/tag-version-commit@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        - name: 'tag'
+          on:
+            push:
+              branches:
+                - 'release/*'
+          jobs:
+            tag:
+              runs-on: ubuntu-latest
+              steps:
+              - uses: actions/checkout@v2
+              - uses: christophebedard/tag-version-commit@v1
+                with:
+                  token: ${{ secrets.TOKEN_FOR_PR }}
       
       # - name: Create Pull Request
       #   env:
