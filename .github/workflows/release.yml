@@ -33,13 +33,12 @@ jobs:
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
-          fallback: 1.0.0
+          fallback: 1
 
-      - name: 'Split Tag'
-        uses: winterjung/split@v2
+      - uses: winterjung/split@v2
         id: split
         with:
-          msg: '${{steps.previoustag.outputs.tag}}'
+          msg: '/${{steps.previoustag.outputs.tag}}'
 
       - name: Create tag
         uses: actions/github-script@v5
@@ -49,7 +48,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs}}',
               sha: context.sha
             })
       # - name: Create Release Tags
