@@ -33,7 +33,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/<tagname>',
+              ref: 'refs/tags/<release${{inputs.release_version}}>',
               sha: context.sha
             })
         
