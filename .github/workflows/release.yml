@@ -25,30 +25,31 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
-      # - name: 'Get Previous tag'
-      #   id: previoustag
-      #   uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      #   with:
-      #     fallback: 1.0.0
 
-      - name: Generate release tag
-        id: generate_release_tag
-        uses: amitsingh-007/next-release-tag@v4.0.0
+      - uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.TOKEN_FOR_PR }}
-          tag_prefix: 'v'
+          fetch-depth: 0
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1.0.0
+
+      - name: 'Split Tag'
+        uses: winterjung/split@v2
+        id: split
+        with:
+          msg: '${{steps.previoustag.outputs.tag}}'
 
       - name: Create tag
-        uses: actions/github-script@v5        
+        uses: actions/github-script@v5
+
         with:
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{ steps.generate_release_tag.outputs.next_release_tag }}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}',
               sha: context.sha
             })
       # - name: Create Release Tags
