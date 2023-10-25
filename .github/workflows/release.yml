@@ -25,7 +25,9 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
-
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
