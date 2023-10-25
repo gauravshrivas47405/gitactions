@@ -8,8 +8,8 @@ try {
     const gitTags = core.getInput('gitTags');
     console.log(`gittags========>>> ${gitTags}!`);
     let previousIndex = gitTags.split('_rc')[1];
-    let newIndex = parseInt(previousIndex)+1;
-    core.setOutput("newIndex =======>>>", newIndex);
+    let newTag = parseInt(previousIndex)+1;
+    core.setOutput("newTag", newTag);
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`);
