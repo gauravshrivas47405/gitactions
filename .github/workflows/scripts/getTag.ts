@@ -11,8 +11,9 @@ try {
     let newTag = 1;
     
     if(gitTags.includes('_rc')){
-      let previousIndex = gitTags.split('_rc')[1];
-       newTag = await parseInt(previousIndex)+1;
+      let previousTag = gitTags.split('_rc')[1];
+      console.log(`previousTag==========>>>${previousTag}`);
+       newTag = await parseInt(previousTag)+1;
     }
     console.log(`newTag========>>> ${newTag}`);
     core.setOutput("newTag", newTag);
