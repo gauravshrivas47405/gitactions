@@ -38,7 +38,6 @@ jobs:
               sha: context.sha,
               version_tag_prefix: 'v'
             })
-            echo "::Release branch tagged successfully"
       # - name: Create Release Tags
       #   uses: christophebedard/tag-version-commit@v1
       #   with:
