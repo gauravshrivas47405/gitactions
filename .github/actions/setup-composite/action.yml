@@ -9,5 +9,5 @@ outputs:
   newTag: # id of output
     description: 'New Tag'
 runs:
-  using: 'node20'
+  using: 'node16'
   main: '.github/workflows/scripts/getTag.ts'
