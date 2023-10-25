@@ -35,9 +35,9 @@ jobs:
               repo: context.repo.repo,
               ref: 'refs/tags/release_${{inputs.release_version}}_rc',
               sha: context.sha
+              version_tag_prefix: 'v'
             })
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+          
       # - name: Create Release Tags
       #   uses: christophebedard/tag-version-commit@v1
       #   with:
