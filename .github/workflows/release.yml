@@ -17,7 +17,7 @@ jobs:
       
       - name: Create Release Branch
         run: |
-          git checkout -b release/release-${{inputs.release_version}}
+          git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json  
@@ -25,10 +25,10 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/release-${{inputs.release_version}}
       
-      - name: Create Pull Request
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_FOR_PR }}
-        run: |
-          env
-          gh auth login --with-token || echo 0
-          gh pr create -H release/release-${{inputs.release_version}} -B main --title 'Merge release branch into main' --body 'Created by Github action
+      # - name: Create Pull Request
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.TOKEN_FOR_PR }}
+      #   run: |
+      #     env
+      #     gh auth login --with-token || echo 0
+      #     gh pr create -H release/release-${{inputs.release_version}} -B main --title 'Merge release branch into main' --body 'Created by Github action
