@@ -35,7 +35,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc$ git ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r | head -1',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{git ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r | head -1}}',
               sha: context.sha,
               version_tag_prefix: 'v'
             })
