@@ -3,6 +3,7 @@
 import core from '@actions/core';
 import github from '@actions/github';
 
+const main = async () => {
 try {
     // `who-to-greet` input defined in action metadata file
     const gitTags = core.getInput('gitTags');
@@ -16,3 +17,6 @@ try {
   } catch (error) {
     core.setFailed(error.message);
   }
+}
+
+main();
