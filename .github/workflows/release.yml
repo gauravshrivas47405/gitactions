@@ -41,6 +41,9 @@ jobs:
           string: '${{steps.previoustag.outputs.tag}}'
           split-by: '_rc'
 
+      - name: Install dependencies
+        run: npm i @actions/core @actions/github
+
       - name: Get the latest repo tag
         id: latestTag
         uses: ./
