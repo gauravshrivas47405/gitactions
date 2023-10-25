@@ -24,9 +24,7 @@ jobs:
           git add .
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
-          git describe --tags $(git rev-list --tags --max-count=1)
-          echo "::Release branch creadted"
-          echo "::Tags info" git describe --abbrev=0
+          echo "::Release branch creadted successfully"
 
       - name: Create tag
         uses: actions/github-script@v5
@@ -40,7 +38,7 @@ jobs:
               sha: context.sha,
               version_tag_prefix: 'v'
             })
-          
+            echo "::Release branch tagged successfully"
       # - name: Create Release Tags
       #   uses: christophebedard/tag-version-commit@v1
       #   with:
