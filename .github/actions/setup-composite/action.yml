@@ -10,4 +10,4 @@ outputs:
     description: 'New Tag'
 runs:
   using: 'node20'
-  main: './.github/workflow/scripts/getTag.ts'
+  main: '.github/workflows/scripts/getTag.ts'
