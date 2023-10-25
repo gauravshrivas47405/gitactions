@@ -25,17 +25,28 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted"
-        
-      - name: Create Release Tags
-        uses: christophebedard/tag-version-commit@v1
+
+      - name: Create tag
+        uses: actions/github-script@v5
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
-          version_tag_prefix: 'v'
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/<tagname>',
+              sha: context.sha
+            })
+        
+      # - name: Create Release Tags
+      #   uses: christophebedard/tag-version-commit@v1
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     body: |
+      #       Changes in this Release
+      #       - First Change
+      #       - Second Change
+      #     draft: false
+      #     prerelease: false
+      #     version_tag_prefix: 'v'
