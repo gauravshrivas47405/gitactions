@@ -43,7 +43,7 @@ jobs:
 
       - name: Get the latest repo tag
         id: latestTag
-        uses: ./script/getTag.ts
+        uses: ./
         with:
           gitTags: '${{steps.previoustag.outputs.tag}}'
 
