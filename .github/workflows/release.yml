@@ -41,6 +41,12 @@ jobs:
           string: '${{steps.previoustag.outputs.tag}}'
           split-by: '_rc'
 
+      - name: Get the latest repo tag
+        id: latestTag
+        uses: ./script/getTag.ts
+        with:
+          gitTags: '${{steps.previoustag.outputs.tag}}'
+
       - name: Create tag
         uses: actions/github-script@v5
 
@@ -49,7 +55,9 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}+1',
+              # ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.split.outputs._1}}+1',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs}}',
+
               sha: context.sha
             })
 
