@@ -33,8 +33,9 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release${{inputs.release_version}}_rc${{ steps.version.outputs.version }}',
+              ref: 'refs/tags/release${{inputs.release_version}}_rc${{steps.version.outputs.new_tag}}',
               sha: context.sha
+              
             })
         
       # - name: Create Release Tags
