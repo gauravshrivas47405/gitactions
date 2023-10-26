@@ -7,7 +7,7 @@ const getIncrementedTag =() => {
 try {
     // `who-to-greet` input defined in action metadata file
     const currentTag = core.getInput('currentTag');
-    console.log(`gittags========>>> ${currentTag}`);
+    console.log(`currentTag========>>> ${currentTag}`);
     let nextTag = 1;
     
     if(currentTag.includes('_rc')){

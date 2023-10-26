@@ -6,7 +6,7 @@ inputs:
     required: true
 outputs:
   nextTag: # id of output
-    description: 'New Tag'
+    description: 'Next Tag'
 runs:
   using: 'node16'
   main: '.github/workflows/scripts/getTag.ts'
