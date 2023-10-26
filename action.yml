@@ -1,7 +1,7 @@
 name: 'Get the latest repo tag'
 description: 'Get the current tag and return the next tag'
 inputs:
-  previousTag:  # id of input
+  gitTag:  # id of input
     description: 'Latest git tags'
     required: true
 outputs:

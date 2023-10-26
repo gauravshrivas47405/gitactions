@@ -35,20 +35,20 @@ jobs:
         with:
           fallback: 1
       
-      # - uses: rishabhgupta/split-by@v1
-      #   id: split
-      #   with:
-      #     string: '${{steps.previoustag.outputs.tag}}'
-      #     split-by: '_rc'
+      - uses: rishabhgupta/split-by@v1
+        id: split
+        with:
+          string: '${{steps.previoustag.outputs.tag}}'
+          split-by: '_rc'
 
       - name: Install dependencies
         run: npm i @actions/core @actions/github
 
       - name: Get the latest repo tag
-        id: previoustag
+        id: latestTag
         uses: ./
         with:
-          previousTag: '${{steps.previoustag.outputs.tag}}'
+          gitTags: '${{steps.previoustag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5
@@ -57,7 +57,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.previoustag.outputs.incrementedValue}}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.incrementeValue}}',
               sha: context.sha
             })
 

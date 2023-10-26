@@ -2,16 +2,21 @@
 
 const core = require('@actions/core');
 const github = require('@actions/github');
-let incrementedValue = 1;
 
 const getIncrementedTag =() => {
 try {
-    const previoustag = core.getInput('previousTag');
-    if(previoustag.includes('_rc')){
-      let previousTag = previoustag.split('_rc')[1];
-      incrementedValue = parseInt(previousTag)+1;
+    // `who-to-greet` input defined in action metadata file
+    const gitTag = core.getInput('gitTag');
+    console.log(`gittags========>>> ${gitTag}`);
+    let newTag = 1;
+    
+    if(gitTag.includes('_rc')){
+      let previousTag = gitTag.split('_rc')[1];
+      console.log(`previousTag==========>>>${previousTag}`);
+       newTag = parseInt(previousTag)+1;
     }
-    core.setOutput("incrementedValue", incrementedValue);
+    console.log(`newTag========>>> ${newTag}`);
+    core.setOutput("incrementeValue", newTag);
   } catch (error) {
     core.setFailed(error.message);
   }
