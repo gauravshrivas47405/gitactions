@@ -9,4 +9,4 @@ outputs:
     description: 'New Tag'
 runs:
   using: 'node16'
-  main: '.github/workflows/scripts/getTag.ts'
+  main: '.github/workflows/scripts/getIncrementedTagValue.ts'
