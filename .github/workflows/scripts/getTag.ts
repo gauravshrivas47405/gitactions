@@ -6,7 +6,7 @@ const github = require('@actions/github');
 const getIncrementedTag =() => {
 try {
     // `who-to-greet` input defined in action metadata file
-    const gitTag = core.getInput('gitTag');
+    const gitTag = core.getInput('gitTags');
     console.log(`gittags========>>> ${gitTag}`);
     let newTag = 1;
     
