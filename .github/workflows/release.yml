@@ -45,7 +45,7 @@ jobs:
         id: latestTag
         uses: ./
         with:
-          gitTags: '${{steps.get-latest-tag.outputs.tag}}'
+          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5

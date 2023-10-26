@@ -4,7 +4,7 @@ const github = require("@actions/github");
 const main = () => {
   try {
     // `who-to-greet` input defined in action metadata file
-    const currentTag = core.getInput("gitTags");
+    const currentTag = core.getInput("currentTag");
     console.log(`gittags========>>> ${currentTag}`);
     let newTag = 1;
 
