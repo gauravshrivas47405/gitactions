@@ -29,17 +29,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: 'Get Previous tag'
-      #   id: previoustag
-      #   uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      #   with:
-      #     fallback: 1
-      
-      # - uses: rishabhgupta/split-by@v1
-      #   id: split
-      #   with:
-      #     string: '${{steps.previoustag.outputs.tag}}'
-      #     split-by: '_rc'
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1
 
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
