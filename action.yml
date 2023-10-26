@@ -1,12 +1,13 @@
 name: 'Get the latest repo tag'
 description: 'Get the current tag and return the next tag'
 inputs:
-  currentTag:  # id of input
+  gitTags:  # id of input
     description: 'Latest git tags'
     required: true
+    default: 'release_1.00.1_rc1'
 outputs:
-  nextTag: # id of output
-    description: 'Next Tag'
+  newTag: # id of output
+    description: 'New Tag'
 runs:
   using: 'node16'
   main: '.github/workflows/scripts/getTag.ts'
