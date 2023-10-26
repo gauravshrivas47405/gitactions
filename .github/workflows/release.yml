@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm i @actions/core @actions/github
 
-      - name: Get the latest repo tag
+      - name: Get Incremented Tag Value
         id: latestTag
         uses: ./
         with:
