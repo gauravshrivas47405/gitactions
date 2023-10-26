@@ -4,7 +4,7 @@ inputs:
   gitTags:  # id of input
     description: 'Latest git tags'
     required: true
-    default: 'release_1.00.1_rc1'
+    # default: 'release_1.00.1_rc1'
 outputs:
   newTag: # id of output
     description: 'New Tag'
