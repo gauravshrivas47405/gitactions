@@ -5,7 +5,7 @@ inputs:
     description: 'Latest git tags'
     required: true
 outputs:
-  incrementeValue: # id of output
+  newTag: # id of output
     description: 'New Tag'
 runs:
   using: 'node16'
