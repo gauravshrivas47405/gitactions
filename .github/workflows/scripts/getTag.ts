@@ -1,19 +1,17 @@
+const core = require("@actions/core");
+const github = require("@actions/github");
 
-
-const core = require('@actions/core');
-const github = require('@actions/github');
-
-const main = async () => {
-try {
+const main = () => {
+  try {
     // `who-to-greet` input defined in action metadata file
-    const gitTags = core.getInput('gitTags');
-    console.log(`gittags========>>> ${gitTags}`);
+    const currentTag = core.getInput("gitTags");
+    console.log(`gittags========>>> ${currentTag}`);
     let newTag = 1;
-    
-    if(gitTags.includes('_rc')){
-      let previousIndex = gitTags.split('_rc')[1];
-      console.log()
-       newTag = await parseInt(previousIndex)+1;
+
+    if (currentTag.includes("_rc")) {
+      let previousIndex = currentTag.split("_rc")[1];
+      console.log("previousIndex=======>>", previousIndex);
+      newTag = parseInt(previousIndex) + 1;
     }
     console.log(`newTag========>>> ${newTag}`);
     core.setOutput("newTag", newTag);
@@ -23,6 +21,6 @@ try {
   } catch (error) {
     core.setFailed(error.message);
   }
-}
+};
 
 main();
