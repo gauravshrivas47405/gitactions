@@ -45,7 +45,7 @@ jobs:
         run: npm i @actions/core @actions/github
 
       - name: Get the latest repo tag
-        id: latestTag
+        id: previoustag
         uses: ./
         with:
           gitTag: '${{steps.previoustag.outputs.tag}}'
@@ -57,7 +57,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.incrementeValue}}',
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.previoustag.outputs.incrementedValue}}',
               sha: context.sha
             })
 

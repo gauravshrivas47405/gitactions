@@ -2,27 +2,19 @@
 
 const core = require('@actions/core');
 const github = require('@actions/github');
+let incrementedValue = 1;
 
-const main = async () => {
+const getIncrementedTag =() => {
 try {
-    // `who-to-greet` input defined in action metadata file
-    const gitTags = core.getInput('gitTags');
-    console.log(`gittags========>>> ${gitTags}`);
-    let newTag = 1;
-    
-    if(gitTags.includes('_rc')){
-      let previousTag = gitTags.split('_rc')[1];
-      console.log(`previousTag==========>>>${previousTag}`);
-       newTag = await parseInt(previousTag)+1;
+    const gitTag = core.getInput('gitTag');
+    if(gitTag.includes('_rc')){
+      let previousTag = gitTag.split('_rc')[1];
+      incrementedValue = parseInt(previousTag)+1;
     }
-    console.log(`newTag========>>> ${newTag}`);
-    core.setOutput("newTag", newTag);
-    // Get the JSON webhook payload for the event that triggered the workflow
-    // const payload = JSON.stringify(github.context.payload, undefined, 2)
-    // console.log(`The event payload: ${payload}`);
+    core.setOutput("incrementedValue", incrementedValue);
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-main();
+getIncrementedTag();
