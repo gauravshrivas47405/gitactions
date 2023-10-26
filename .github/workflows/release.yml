@@ -48,7 +48,7 @@ jobs:
         id: previoustag
         uses: ./
         with:
-          gitTag: '${{steps.previoustag.outputs.tag}}'
+          previousTag: '${{steps.previoustag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5

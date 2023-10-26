@@ -6,9 +6,9 @@ let incrementedValue = 1;
 
 const getIncrementedTag =() => {
 try {
-    const gitTag = core.getInput('gitTag');
-    if(gitTag.includes('_rc')){
-      let previousTag = gitTag.split('_rc')[1];
+    const previoustag = core.getInput('previousTag');
+    if(previoustag.includes('_rc')){
+      let previousTag = previoustag.split('_rc')[1];
       incrementedValue = parseInt(previousTag)+1;
     }
     core.setOutput("incrementedValue", incrementedValue);
