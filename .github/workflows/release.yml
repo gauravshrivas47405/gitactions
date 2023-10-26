@@ -41,6 +41,9 @@ jobs:
       #     string: '${{steps.previoustag.outputs.tag}}'
       #     split-by: '_rc'
 
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+
       - name: Install dependencies
         run: npm i @actions/core @actions/github
 
@@ -48,7 +51,7 @@ jobs:
         id: latestTag
         uses: ./
         with:
-          gitTags: '${{steps.previoustag.outputs.tag}}'
+          gitTags: '${{steps.get-latest-tag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5
