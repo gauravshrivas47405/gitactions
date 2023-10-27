@@ -17,7 +17,7 @@ jobs:
         id: semver
         uses: "matt-usurp/validate-semver@v1"
         with:
-          version: ${{ inputs.release_version }}
+          version: v${{ inputs.release_version }}
       - run: |
           echo "v${{ steps.semver.outputs.version }}"
           echo "v${{ steps.semver.outputs.major }}"
