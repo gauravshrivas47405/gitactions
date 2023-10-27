@@ -7,10 +7,6 @@ on:
         description: 'Version no of release'
         default: 'x.xx.x'
         required: true
-      tags:
-        description: 'Test scenario tags'
-        required: true
-        type: string
 
 jobs:
   build:
