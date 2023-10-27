@@ -14,58 +14,59 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
     steps:
       - run: git ls-remote --heads origin refs/heads/release/[github.event.inputs.release_version]
-  job2:
-    runs-on: ubuntu-latest
+  
+  # job2:
+  #   runs-on: ubuntu-latest
 
-    steps:
+  #   steps:
       
-      - name: Checkout Code
-        uses: actions/checkout@v3
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v3
      
-      - name: Create Release Branch
-        run: |
-          git checkout -b release/${{inputs.release_version}}
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
-          git add .
-          git commit -m "Automated commit by GitHub Actions to update version name" -a
-          git push --set-upstream origin release/${{inputs.release_version}}
-          echo "::Release branch creadted successfully"
+  #     - name: Create Release Branch
+  #       run: |
+  #         git checkout -b release/${{inputs.release_version}}
+  #         git config --local user.email "action@github.com"
+  #         git config --local user.name "GitHub Action"
+  #         sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+  #         git add .
+  #         git commit -m "Automated commit by GitHub Actions to update version name" -a
+  #         git push --set-upstream origin release/${{inputs.release_version}}
+  #         echo "::Release branch creadted successfully"
 
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
-          fallback: 1
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: get-latest-tag
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - name: 'Get Previous tag'
+  #       id: previoustag
+  #       uses: "WyriHaximus/github-action-get-previous-tag@v1"
+  #       with:
+  #         fallback: 1
+  #     - uses: actions-ecosystem/action-get-latest-tag@v1
+  #       id: get-latest-tag
       
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+  #     - name: Get the version
+  #       id: get_version
+  #       run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
 
-      - name: Install dependencies
-        run: npm i @actions/core @actions/github
+  #     - name: Install dependencies
+  #       run: npm i @actions/core @actions/github
 
-      - name: Get Incremented Tag Value
-        id: latestTag
-        uses: ./
-        with:
-          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+  #     - name: Get Incremented Tag Value
+  #       id: latestTag
+  #       uses: ./
+  #       with:
+  #         currentTag: '${{steps.get-latest-tag.outputs.tag}}'
       
-      - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
-              sha: context.sha
-            })
+  #     - name: Create tag
+  #       uses: actions/github-script@v5
+  #       with:
+  #         script: |
+  #           github.rest.git.createRef({
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+  #             sha: context.sha
+  #           })
 
