@@ -19,7 +19,7 @@ jobs:
      
       - name: Create Release Branch
         run: |
-          _check_branch=$(git ls-remote --heads origin release/${inputs.release_version})
+          _check_branch=$(git ls-remote --heads origin release/${{inputs.release_version}})
           if [[ -z ${_check_branch} ]]; then
           echo "remote: branch do not exist" > /dev/null 2>&1
           else
