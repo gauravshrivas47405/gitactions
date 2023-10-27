@@ -13,8 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
     steps:
-      - run: git ls-remote --heads origin refs/heads/release/[github.event.inputs.release_version]
-  
+      - name: 'Get Previous tag'
+        id: semver
+        uses: "matt-usurp/validate-semver@v1"
+        with:
+          version: ${{ inputs.release_version }}
+      - run: |
+          echo "v${{ steps.semver.outputs.version }}"
+          echo "v${{ steps.semver.outputs.major }}"
+          
   # job2:
   #   runs-on: ubuntu-latest
 
