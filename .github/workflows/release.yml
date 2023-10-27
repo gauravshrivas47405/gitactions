@@ -12,7 +12,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
-          echo "${{github.event.inputs.release_version}}"
+          echo "release_version ${{github.event.inputs.release_version}}"
     steps:
       - name: 'Validate Semver'
         id: semver
@@ -20,6 +20,7 @@ jobs:
         with:
           version: github.event.inputs.release_version
       - run: |
+          echo "release_version1 ${{github.event.inputs.release_version}}"
           echo "v${{ steps.semver.outputs.version }}"
           echo "v${{ steps.semver.outputs.major }}"
           
