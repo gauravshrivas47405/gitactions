@@ -19,6 +19,12 @@ jobs:
      
       - name: Create Release Branch
         run: |
+          _check_branch=$(git ls-remote --heads origin release/${inputs.release_version})
+          if [[ -z ${_check_branch} ]]; then
+          echo "remote: branch do not exist" > /dev/null 2>&1
+          else
+          echo "remote: Good lets continue" > /dev/null 2>&1
+          fi
           git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
