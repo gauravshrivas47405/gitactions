@@ -18,7 +18,7 @@ jobs:
       
       - name: Create Release Branch
         run: |
-          git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l
+          if [[ ${{ git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l }} == 0 ]]; then
           git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -27,6 +27,13 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
+          echo "version tag is ${v}"
+          else
+          echo "There is no github tag reference, skipping"
+          fi
+
+          
+          
 
       # - uses: actions/checkout@v3
       #   with:
