@@ -16,25 +16,25 @@ jobs:
       
       - name: Checkout Code
         uses: actions/checkout@v3
-      - name: Verify release branch not exists
-        run: |
-          git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version]
-           PARAMS=${git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] }
-          if [[ ! "$PARAMS" =~ 1 ]]; then
-            echo "Invalid /changelog-entry command"
-            exit 1
-          fi
-      # - name: Create Release Branch
+      # - name: Verify release branch not exists
       #   run: |
-      #     git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l
-      #     git checkout -b release/${{inputs.release_version}}
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
-      #     git add .
-      #     git commit -m "Automated commit by GitHub Actions to update version name" -a
-      #     git push --set-upstream origin release/${{inputs.release_version}}
-      #     echo "::Release branch creadted successfully"
+      #     git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version]
+      #      PARAMS=${git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] }
+      #     if [[ ! "$PARAMS" =~ 1 ]]; then
+      #       echo "Invalid /changelog-entry command"
+      #       exit 1
+      #     fi
+      - name: Create Release Branch
+        run: |
+          git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l
+          git checkout -b release/${{inputs.release_version}}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+          git add .
+          git commit -m "Automated commit by GitHub Actions to update version name" -a
+          git push --set-upstream origin release/${{inputs.release_version}}
+          echo "::Release branch creadted successfully"
 
       # - uses: actions/checkout@v3
       #   with:
