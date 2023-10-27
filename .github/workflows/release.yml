@@ -5,7 +5,7 @@ on:
     inputs:
       release_version:
         description: 'Version no of release'
-        default: '*.**.*'
+        default: 'x.xx.x'
         required: true
 
 jobs:
