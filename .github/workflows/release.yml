@@ -19,12 +19,6 @@ jobs:
      
       - name: Create Release Branch
         run: |
-          _check_branch=$(git ls-remote --heads origin release/${{inputs.release_version}})
-          if [[ -z ${_check_branch} ]]; then
-          echo "remote: branch do not exist" > /dev/null 2>&1
-          else
-          echo "remote: Good lets continue" > /dev/null 2>&1
-          fi
           git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -34,35 +28,40 @@ jobs:
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
 
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
-      # - name: 'Get Previous tag'
-      #   id: previoustag
-      #   uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      #   with:
-      #     fallback: 1
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+      
+      - name: GitHub Tag Name example
+        run: |
+         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
 
-      # - uses: actions-ecosystem/action-get-latest-tag@v1
-      #   id: get-latest-tag
+         
+      - name: Install dependencies
+        run: npm i @actions/core @actions/github
 
-      # - name: Install dependencies
-      #   run: npm i @actions/core @actions/github
-
-      # - name: Get Incremented Tag Value
-      #   id: latestTag
-      #   uses: ./
-      #   with:
-      #     currentTag: '${{steps.get-latest-tag.outputs.tag}}'
-        
-      # - name: Create tag
-      #   uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #       github.rest.git.createRef({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
-      #         sha: context.sha
-      #       })
+      - name: Get Incremented Tag Value
+        id: latestTag
+        uses: ./
+        with:
+          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+      
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+              sha: context.sha
+            })
 
