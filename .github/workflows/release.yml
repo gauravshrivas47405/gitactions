@@ -7,22 +7,9 @@ on:
         description: 'Version no of release'
         default: 'x.xx.x'
         required: true
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
+    
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
-    steps:
-      - id: step1
-        run: echo "test=hello" >> "$GITHUB_OUTPUT"
-      - id: step2
-        run: echo "test=world" >> "$GITHUB_OUTPUT"
-  job2:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +18,7 @@ jobs:
       
       - name: Create Release Branch
         run: |
-          echo The username is ${{ inputs.release_version }}
+          echo The username is ${{ github.ref}}
           git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
