@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
     steps:
-      - run: echo "Input 1 not empty"
+      - run: git ls-remote --heads origin refs/heads/release/[github.event.inputs.release_version]
   job2:
     runs-on: ubuntu-latest
 
