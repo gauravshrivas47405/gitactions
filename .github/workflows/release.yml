@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
+      - name: Checkout Code
+        uses: actions/checkout@v3
       - name: Verify release branch not exists
         run: |
           git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version]
@@ -21,9 +24,6 @@ jobs:
             echo "Invalid /changelog-entry command"
             exit 1
           fi
-      # - name: Checkout Code
-      #   uses: actions/checkout@v3
-      
       # - name: Create Release Branch
       #   run: |
       #     git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l
