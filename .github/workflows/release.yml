@@ -18,7 +18,7 @@ jobs:
       
       - name: Create Release Branch
         run: |
-          echo The username is ${{ git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l}}
+          git ls-remote --heads git@github.com:user/repo.git refs/heads/[inputs.release_version] | wc -l
           git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
