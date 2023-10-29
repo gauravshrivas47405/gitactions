@@ -36,12 +36,11 @@ jobs:
           id: get-latest-tag
         
         
-        - name: Get tag
+        - name: Get all tags
           id: get_tag
           run: |
-            git branch --show-current
-            git pull
-            echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUTgit branch --show-current
+            git ls-remote --tags origin
+
            
 
         - name: Install dependencies
@@ -53,8 +52,8 @@ jobs:
           id: latestTag
           uses: ./
           with:
-            currentTag: '${{steps.get-latest-tag.outputs.tag}}'
-            # currentTag: '${{steps.tagger.outputs.tag}}'
+            currentTag: '${{steps.get_tag}}'
+            # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
         - name: Create tag
           if: always()
