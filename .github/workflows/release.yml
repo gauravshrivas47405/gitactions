@@ -35,7 +35,7 @@ jobs:
       - name: Get the previous release Tag
         id : previous_release_tag
         run: |
-          git tag -l 'release_${{inputs.release_version}}_rc*' | sort -V
+          git tag -l 'Dev${{inputs.release_version}}_rc*' | sort -V
       
       - name: Create Release Branch
         run: |
@@ -47,7 +47,7 @@ jobs:
           git commit -m "Automated commit by GitHub Actions to update version name" -a
           git push --set-upstream origin release/${{inputs.release_version}}
           echo "::Release branch creadted successfully"
-          echo "::Previous release tag ${{steps.previous_release_tag.outputs}}"
+          echo "::Previous release tag ${{steps.previous_release_tag.outputs.tag}}"
 
       - uses: actions/checkout@v3
         with:
@@ -68,7 +68,6 @@ jobs:
         id: latestTag
         uses: ./
         with:
-          # currentTag: '${{steps.previous_release_tag.outputs}}'
           currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
       - name: Create tag
