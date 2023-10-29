@@ -35,7 +35,7 @@ jobs:
       - name: Get the previous release Tag
         id : previous_release_tag
         run: |
-          git tag -l 'Dev${{inputs.release_version}}_rc*' | sort -V
+          git tag -l 'release_*_rc*' | sort -V
       
       - name: Create Release Branch
         run: |
@@ -60,7 +60,7 @@ jobs:
         
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
-
+        if: ${{ steps.previous_release_tag.outputs.tag != null }}
       - name: Install dependencies
         run: npm i @actions/core @actions/github
 
