@@ -4,7 +4,7 @@ const github = require("@actions/github");
 const getIncrementedTagValue = () => {
   try {
     const currentTag = core.getInput("currentTag");
-    console.log("core.getInput" , core.getInput("currentTag"))
+    console.log(currentTag);
     let nextTag = 1;
     if (currentTag.includes("_rc") && currentTag.split("_rc")[1]) {
       let previousIndex = currentTag.split("_rc")[1];
