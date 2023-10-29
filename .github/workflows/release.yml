@@ -23,6 +23,7 @@ jobs:
         uses: jimschubert/query-tag-action@v1
         with:
           include: '*release_*'
+          skip-unshallow: 'true'
       # - name: Show Tag
       #   id: display
       #   run: |
@@ -63,14 +64,14 @@ jobs:
               sha: context.sha
             })
 
-      - name: Create Release Branch
-        if: always()
-        run: |
-          git checkout -b release/${{inputs.release_version}}
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
-          git add .
-          git commit -m "Automated commit by GitHub Actions to update version name" -a
-          git push --set-upstream origin release/${{inputs.release_version}}
-          echo "::Release branch creadted successfully"
+      # - name: Create Release Branch
+      #   if: always()
+      #   run: |
+      #     git checkout -b release/${{inputs.release_version}}
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+      #     git add .
+      #     git commit -m "Automated commit by GitHub Actions to update version name" -a
+      #     git push --set-upstream origin release/${{inputs.release_version}}
+      #     echo "::Release branch creadted successfully"
