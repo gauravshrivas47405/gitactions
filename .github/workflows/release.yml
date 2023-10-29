@@ -7,9 +7,6 @@ on:
         description: 'Version no of release'
         type: number
         required: true
-      message:
-        required: true
-        description: Include 🎉🤣 emojis
 
 jobs:
   build:
@@ -20,11 +17,23 @@ jobs:
         uses: actions/checkout@v3
 
 
-      - name: 'Check if branch already exists'
-        id: branchExists
+      - uses: nowsprinting/check-version-format-action@v3
+        id: version
+        with:
+          prefix: 'v'
+
+      - name: Version tag only step
         run: |
-          git ls origin release/${{inputs.release_version}}
-          echo "If Branch exists or not"
+          echo "Found valid version format in tag!"
+          echo "Full version: ${{ steps.version.outputs.full }}"
+          echo "Major version: ${{ steps.version.outputs.major }}"
+          echo "Major with pre-release: ${{ steps.version.outputs.major_prerelease }}"
+        if: steps.version.outputs.is_valid == 'true'
+
+      - name: Stable version only step
+        run: |
+          echo "Found stable version in tag!"
+        if: steps.version.outputs.is_stable == 'true'
       
       - name: Create Release Branch
         run: |
