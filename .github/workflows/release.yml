@@ -16,13 +16,12 @@ jobs:
         steps:
 
         
-        - name: Checkout
-          uses: actions/checkout@v2
+        - uses: actions/checkout@v3
         - name: Find Release Tag
           id: tagger
           uses: jimschubert/query-tag-action@v1
           with:
-            include: '*release*'
+            include: 'refs/tags/release_*'
             commit-ish: 'HEAD~'
         # - name: Show Tag
         #   id: display
@@ -50,8 +49,8 @@ jobs:
           id: latestTag
           uses: ./
           with:
-            currentTag: '${{steps.get-latest-tag.outputs.tag}}'
-            # currentTag: '${{steps.tagger.outputs.tag}}'
+            # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+            currentTag: '${{steps.tagger.outputs.tag}}'
         
         - name: Create tag
           if: always()
