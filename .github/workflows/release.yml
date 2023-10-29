@@ -20,7 +20,7 @@ jobs:
       - uses: nowsprinting/check-version-format-action@v3
         id: version
         with:
-          prefix: 'v'
+          prefix: 'v${{inputs.release_version}}'
 
       - name: Version tag only step
         run: |
