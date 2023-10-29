@@ -43,16 +43,7 @@ jobs:
         id: display
         run: |
           echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}'
-  #     - name: Create Release Branch
-  #       run: |
-  #         git checkout -b release/${{inputs.release_version}}
-  #         git config --local user.email "action@github.com"
-  #         git config --local user.name "GitHub Action"
-  #         sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
-  #         git add .
-  #         git commit -m "Automated commit by GitHub Actions to update version name" -a
-  #         git push --set-upstream origin release/${{inputs.release_version}}
-  #         echo "::Release branch creadted successfully"
+  
 
   #     - uses: actions/checkout@v3
   #       with:
@@ -89,4 +80,14 @@ jobs:
               ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
               sha: context.sha
             })
-
+            
+      - name: Create Release Branch
+        run: |
+          git checkout -b release/${{inputs.release_version}}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+          git add .
+          git commit -m "Automated commit by GitHub Actions to update version name" -a
+          git push --set-upstream origin release/${{inputs.release_version}}
+          echo "::Release branch creadted successfully"
