@@ -14,17 +14,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v3
-        # - name: Find Release Tag
-        #   id: tagger
-        #   uses: jimschubert/query-tag-action@v1
-        #   with:
-        #     include: '*release_*'
-        # - name: Show Tag
-        #   id: display
-        #   run: |
-        #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
-     
-        - uses: actions/checkout@v3
           with:
             fetch-depth: 0
         - name: 'Get Previous tag'
@@ -42,19 +31,16 @@ jobs:
             git tag
 
         - name: Install dependencies
-          # if: always()
           run: npm i @actions/core @actions/github
 
         - name: Get Incremented Tag Value
-          # if: always()
           id: latestTag
           uses: ./
           with:
-            currentTag: '${{steps.get_tag.outputs.tag}}'
-            # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+            # currentTag: '${{steps.get_tag.outputs.tag.core.getInput}}'
+            currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
         - name: Create tag
-          # if: always()
           uses: actions/github-script@v5
           with:
             script: |
