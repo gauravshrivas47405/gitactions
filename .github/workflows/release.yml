@@ -18,16 +18,16 @@ jobs:
         
         - name: Checkout
           uses: actions/checkout@v2
-        # - name: Find Release Tag
-        #   id: tagger
-        #   uses: jimschubert/query-tag-action@v1
-        #   with:
-        #     include: '*release*'
-        #     commit-ish: 'HEAD~'
-        # - name: Show Tag
-        #   id: display
-        #   run: |
-        #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
+        - name: Find Release Tag
+          id: tagger
+          uses: jimschubert/query-tag-action@v1
+          with:
+            include: '*release*'
+            commit-ish: 'HEAD~'
+        - name: Show Tag
+          id: display
+          run: |
+            echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
      
         - uses: actions/checkout@v3
           with:
