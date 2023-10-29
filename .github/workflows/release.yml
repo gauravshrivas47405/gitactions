@@ -9,20 +9,6 @@ on:
         required: true
     
 jobs:
-  # job1:
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
-  #         echo "release_version ${{github.event.inputs.release_version}}"
-  #   steps:
-  #     - name: 'Validate Semver'
-  #       id: semver
-  #       uses: "matt-usurp/validate-semver@v1"
-  #       with:
-  #         version: github.event.inputs.release_version
-  #     - run: |
-  #         echo "release_version1 ${{github.event.inputs.release_version}}"
-  #         echo "v${{ steps.semver.outputs.version }}"
-  #         echo "v${{ steps.semver.outputs.major }}"
           
   job1:
     runs-on: ubuntu-latest
@@ -38,10 +24,33 @@ jobs:
         with:
           include: 'release_*'
           commit-ish: 'HEAD~' 
-      - name: Show Tag
-        id: display
-        run: |
-          echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}'
+      # - name: Show Tag
+      #   id: display
+      #   run: |
+      #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}'
+
+      - name: Install dependencies
+        if: always()
+        run: npm i @actions/core @actions/github
+
+      - name: Get Incremented Tag Value
+        if: always()
+        id: latestTag
+        uses: ./
+        with:
+          currentTag: '${{steps.tagger.outputs.tag}}'
+      
+      - name: Create tag
+        if: always()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+              sha: context.sha
+            })
           
       - name: Create Release Branch
         if: always()
@@ -70,26 +79,5 @@ jobs:
       #   id: get_version
       #   run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
-      - name: Install dependencies
-        if: always()
-        run: npm i @actions/core @actions/github
-
-      - name: Get Incremented Tag Value
-        if: always()
-        id: latestTag
-        uses: ./
-        with:
-          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
       
-      - name: Create tag
-        if: always()
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
-              sha: context.sha
-            })
 
