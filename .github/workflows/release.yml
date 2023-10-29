@@ -19,7 +19,8 @@ jobs:
       - name: 'Check if branch already exists'
         id: branchExists
         run: |
-          git ls-remote --exit-code --heads origin release/${{inputs.release_version}}
+          git ls origin release/${{inputs.release_version}}
+          echo "If Branch exists or not"
       
       - name: Create Release Branch
         run: |
