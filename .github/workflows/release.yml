@@ -12,32 +12,28 @@ jobs:
     
       build:
         runs-on: ubuntu-latest
-
         steps:
-
-        
         - uses: actions/checkout@v3
         - name: Find Release Tag
           id: tagger
           uses: jimschubert/query-tag-action@v1
           with:
-            include: '*release_*'
-            commit-ish: 'HEAD~'
+            include: '*release*'
         # - name: Show Tag
         #   id: display
         #   run: |
         #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
      
-        - uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
-        - name: 'Get Previous tag'
-          id: previoustag
-          uses: "WyriHaximus/github-action-get-previous-tag@v1"
-          with:
-            fallback: 1
-        - uses: actions-ecosystem/action-get-latest-tag@v1
-          id: get-latest-tag
+        # - uses: actions/checkout@v3
+        #   with:
+        #     fetch-depth: 0
+        # - name: 'Get Previous tag'
+        #   id: previoustag
+        #   uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        #   with:
+        #     fallback: 1
+        # - uses: actions-ecosystem/action-get-latest-tag@v1
+        #   id: get-latest-tag
         
 
         - name: Install dependencies
