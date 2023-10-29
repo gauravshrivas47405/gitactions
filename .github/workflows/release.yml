@@ -14,58 +14,52 @@ jobs:
 
     steps:
 
-      - id: semver
+      - name: Validate Release Version
+        id: semver
         uses: matt-usurp/validate-semver@v1
         with:
           version: v${{ inputs.release_version }}
 
-      - run: |
-          echo "v${{ steps.semver.outputs.version }}"
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
+      - name: Create Release Branch
+        run: |
+          git checkout -b release/${{inputs.release_version}}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
+          git add .
+          git commit -m "Automated commit by GitHub Actions to update version name" -a
+          git push --set-upstream origin release/${{inputs.release_version}}
+          echo "::Release branch creadted successfully"
 
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Get Previous Release Tag"
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1
+          prefix: "release_*_rc"
 
-      # - name: Checkout Code
-      #   uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm i @actions/core @actions/github
 
-      # - name: Create Release Branch
-      #   run: |
-      #     git checkout -b release/${{inputs.release_version}}
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     sed -ie 's/version .*/version ${{inputs.release_version}}/' app.json
-      #     git add .
-      #     git commit -m "Automated commit by GitHub Actions to update version name" -a
-      #     git push --set-upstream origin release/${{inputs.release_version}}
-      #     echo "::Release branch creadted successfully"
+      - name: Get Incremented Tag Value
+        id: latestTag
+        uses: ./
+        with:
+          currentTag: "${{steps.previoustag.outputs.tag}}"
 
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
-      # - name: "Get Previous tag"
-      #   id: previoustag
-      #   uses: "WyriHaximus/github-action-get-previous-tag@v1"
-      #   with:
-      #     fallback: 1
-      #     prefix: "release_*_rc"
-
-      # - name: Install dependencies
-      #   run: npm i @actions/core @actions/github
-
-      # - name: Get Incremented Tag Value
-      #   id: latestTag
-      #   uses: ./
-      #   with:
-      #     currentTag: "${{steps.previoustag.outputs.tag}}"
-
-      # - name: Create tag
-      #   uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #       github.rest.git.createRef({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
-      #         sha: context.sha
-      #       })
-      #     run: |
-      #       git push origin --tags
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+              sha: context.sha
+            })
