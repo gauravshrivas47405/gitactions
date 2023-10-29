@@ -78,7 +78,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/uat_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+              ref: 'refs/tags/dev_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
               sha: context.sha
             })
           run : |
