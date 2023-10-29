@@ -5,6 +5,7 @@ on:
     inputs:
       release_version:
         description: 'Version no of release'
+        type: number
         required: true
 
 jobs:
