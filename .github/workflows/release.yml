@@ -69,7 +69,6 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
-
       - name: Install dependencies
         run: npm i @actions/core @actions/github
 
