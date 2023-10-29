@@ -39,16 +39,16 @@ jobs:
         - name: Get all tags
           id: get_tag
           run: |
-            git ls-remote --tags origin
+            git tag
 
            
 
         - name: Install dependencies
-          if: always()
+          # if: always()
           run: npm i @actions/core @actions/github
 
         - name: Get Incremented Tag Value
-          if: always()
+          # if: always()
           id: latestTag
           uses: ./
           with:
@@ -56,7 +56,7 @@ jobs:
             # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
         - name: Create tag
-          if: always()
+          # if: always()
           uses: actions/github-script@v5
           with:
             script: |
