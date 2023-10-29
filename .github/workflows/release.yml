@@ -24,7 +24,7 @@ jobs:
         with:
           include: '*release_*'
           skip-unshallow: 'true'
-          commit-ish: '@'
+          commit-ish: 'HEAD~'
       # - name: Show Tag
       #   id: display
       #   run: |
