@@ -9,26 +9,26 @@ on:
         required: true
     
 jobs:
-          
-  job2:
-    runs-on: ubuntu-latest
+    
+      build:
+        runs-on: ubuntu-latest
 
-    steps:
+        steps:
 
-      - name: Checkout Code
-        uses: actions/checkout@v3
+        - name: Checkout Code
+          uses: actions/checkout@v3
 
-      - name: Find Release Tag
-        id: tagger
-        uses: jimschubert/query-tag-action@v1
-        with:
-          include: '*release_*'
-          skip-unshallow: 'true'
-          commit-ish: 'HEAD~'
-      # - name: Show Tag
-      #   id: display
-      #   run: |
-      #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
+        - name: Find Release Tag
+          id: tagger
+          uses: jimschubert/query-tag-action@v1
+          with:
+            include: '*release_*'
+            skip-unshallow: 'true'
+            commit-ish: 'HEAD~'
+        # - name: Show Tag
+        #   id: display
+        #   run: |
+        #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
      
   #     - uses: actions/checkout@v3
   #       with:
@@ -42,28 +42,28 @@ jobs:
   #       id: get-latest-tag
       
 
-      - name: Install dependencies
-        if: always()
-        run: npm i @actions/core @actions/github
+        - name: Install dependencies
+          if: always()
+          run: npm i @actions/core @actions/github
 
-      - name: Get Incremented Tag Value
-        if: always()
-        id: latestTag
-        uses: ./
-        with:
-          currentTag: '${{steps.tagger.outputs.tag}}'
-      
-      - name: Create tag
-        if: always()
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
-              sha: context.sha
-            })
+        - name: Get Incremented Tag Value
+          if: always()
+          id: latestTag
+          uses: ./
+          with:
+            currentTag: '${{steps.tagger.outputs.tag}}'
+        
+        - name: Create tag
+          if: always()
+          uses: actions/github-script@v5
+          with:
+            script: |
+              github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/tags/release_${{inputs.release_version}}_rc${{steps.latestTag.outputs.nextTag}}',
+                sha: context.sha
+              })
 
       # - name: Create Release Branch
       #   if: always()
