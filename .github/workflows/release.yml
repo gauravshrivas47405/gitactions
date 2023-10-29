@@ -35,7 +35,7 @@ jobs:
       - name: Get the previous release Tag
         id : previous_release_tag
         run: |
-          git tag -l 'release_*_rc*' | sort -V
+          git tag -l 'release_${{inputs.release_version}}_rc*' | sort -V
       
       - name: Create Release Branch
         run: |
@@ -68,8 +68,8 @@ jobs:
         id: latestTag
         uses: ./
         with:
-          currentTag: '${{steps.previous_release_tag.outputs}}'
-          # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+          # currentTag: '${{steps.previous_release_tag.outputs}}'
+          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5
