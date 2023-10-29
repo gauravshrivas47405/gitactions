@@ -52,7 +52,7 @@ jobs:
           id: latestTag
           uses: ./
           with:
-            currentTag: '${{steps.get_tag}}'
+            currentTag: '${{steps.get_tag.outputs}}'
             # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
         
         - name: Create tag
