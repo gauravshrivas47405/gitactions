@@ -23,7 +23,7 @@ jobs:
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
-          include: '*release*'
+          include: '*release_*'
           commit-ish: 'HEAD~' 
      
   #     - uses: actions/checkout@v3
