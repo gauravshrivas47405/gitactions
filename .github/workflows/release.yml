@@ -42,7 +42,7 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: 1
-          prefix: "release_*_rc"
+          prefix: "release"
 
       - name: Install dependencies
         run: npm i @actions/core @actions/github
