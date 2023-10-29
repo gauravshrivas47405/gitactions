@@ -22,8 +22,7 @@ jobs:
           id: tagger
           uses: jimschubert/query-tag-action@v1
           with:
-            include: '*release_*'
-            skip-unshallow: 'true'
+            include: '*release*'
             commit-ish: 'HEAD~'
         # - name: Show Tag
         #   id: display
