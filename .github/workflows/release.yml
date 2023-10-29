@@ -13,12 +13,12 @@ jobs:
       build:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/checkout@v3
-        - name: Find Release Tag
-          id: tagger
-          uses: jimschubert/query-tag-action@v1
-          with:
-            include: '*release*'
+        # - uses: actions/checkout@v3
+        # - name: Find Release Tag
+        #   id: tagger
+        #   uses: jimschubert/query-tag-action@v1
+        #   with:
+        #     include: '*release_*'
         # - name: Show Tag
         #   id: display
         #   run: |
@@ -35,6 +35,14 @@ jobs:
         # - uses: actions-ecosystem/action-get-latest-tag@v1
         #   id: get-latest-tag
         
+        
+        - name: Get tag
+          id: get_tag
+          run: |
+            git branch --show-current
+            git pull
+            echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUTgit branch --show-current
+           
 
         - name: Install dependencies
           if: always()
@@ -45,8 +53,8 @@ jobs:
           id: latestTag
           uses: ./
           with:
-            # currentTag: '${{steps.get-latest-tag.outputs.tag}}'
-            currentTag: '${{steps.tagger.outputs.tag}}'
+            currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+            # currentTag: '${{steps.tagger.outputs.tag}}'
         
         - name: Create tag
           if: always()
