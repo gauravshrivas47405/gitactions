@@ -71,15 +71,18 @@ jobs:
       #   run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Install dependencies
+        if: always()
         run: npm i @actions/core @actions/github
 
       - name: Get Incremented Tag Value
+        if: always()
         id: latestTag
         uses: ./
         with:
           currentTag: '${{steps.get-latest-tag.outputs.tag}}'
       
       - name: Create tag
+        if: always()
         uses: actions/github-script@v5
         with:
           script: |
