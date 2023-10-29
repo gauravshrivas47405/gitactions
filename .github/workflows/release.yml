@@ -57,9 +57,9 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: 1
-          prefix: 'release'
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: get-latest-tag
+          prefix: 'release_*_rc'
+      # - uses: actions-ecosystem/action-get-latest-tag@v1
+      #   id: get-latest-tag
 
 
       - name: Install dependencies
@@ -69,7 +69,7 @@ jobs:
         id: latestTag
         uses: ./
         with:
-          currentTag: '${{steps.get-latest-tag.outputs.tag}}'
+          currentTag: '${{steps.previoustag.outputs.tag}}'
         
       - name: Create tag
         uses: actions/github-script@v5
