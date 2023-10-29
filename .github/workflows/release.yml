@@ -24,10 +24,10 @@ jobs:
           with:
             include: '*release*'
             commit-ish: 'HEAD~'
-        - name: Show Tag
-          id: display
-          run: |
-            echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
+        # - name: Show Tag
+        #   id: display
+        #   run: |
+        #     echo 'Output from Find Tag: ${{steps.tagger.outputs.tag}}
      
         - uses: actions/checkout@v3
           with:
