@@ -9,20 +9,6 @@ on:
         required: true
     
 jobs:
-  # job1:
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_version != ''
-  #         echo "release_version ${{github.event.inputs.release_version}}"
-  #   steps:
-  #     - name: 'Validate Semver'
-  #       id: semver
-  #       uses: "matt-usurp/validate-semver@v1"
-  #       with:
-  #         version: github.event.inputs.release_version
-  #     - run: |
-  #         echo "release_version1 ${{github.event.inputs.release_version}}"
-  #         echo "v${{ steps.semver.outputs.version }}"
-  #         echo "v${{ steps.semver.outputs.major }}"
           
   job2:
     runs-on: ubuntu-latest
@@ -37,7 +23,7 @@ jobs:
         id: tagger
         uses: jimschubert/query-tag-action@v1
         with:
-          include: 'release*'
+          include: '*release*'
           commit-ish: 'HEAD~' 
       # - name: Show Tag
       #   id: display
