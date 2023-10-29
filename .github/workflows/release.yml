@@ -41,8 +41,6 @@ jobs:
           run: |
             git tag
 
-           
-
         - name: Install dependencies
           # if: always()
           run: npm i @actions/core @actions/github
