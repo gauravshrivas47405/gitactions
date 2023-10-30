@@ -7,6 +7,9 @@ on:
         description: "Version number of release"
         type: number
         required: true
+    header: |
+        message: Hey there and thank you for opening this pull request! 👋🏼
+        
 
 jobs:
   build:
