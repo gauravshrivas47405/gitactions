@@ -2,13 +2,14 @@ name: Create Release Branch
 
 on:
   workflow_dispatch:
+    header: |
+        message: Hey there and thank you for opening this pull request! 👋🏼
     inputs:
       release_version:
         description: "Version number of release"
         type: number
         required: true
-    header: |
-        message: Hey there and thank you for opening this pull request! 👋🏼
+   
         
 
 jobs:
