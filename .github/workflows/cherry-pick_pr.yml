@@ -11,5 +11,12 @@ jobs:
 
     steps:
 
-      - name: Just checking 
+      - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Create Release Branch
+        run: |
+          git checkout -b release/${{inputs.release_version}}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          echo "::Checking if workfolw executed or not"
