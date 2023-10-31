@@ -4,7 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Checking if workfloe runs or not</Text>
+      <Text>Open up App.js 1</Text>
+      <Text>Open up App.js !</Text>
       <StatusBar style="auto" />
     </View>
   );
