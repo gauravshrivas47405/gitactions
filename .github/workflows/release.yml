@@ -66,16 +66,16 @@ jobs:
               sha: context.sha
             })
 
-      - name: Cherry pick into release/${{inputs.release_version}}
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'release/${{inputs.release_version}}') && github.event.pull_request.merged == true }}
-        uses: 
-          actions/checkout@v3
-          carloscastrojumo/github-cherry-pick-action@v1.0.1
-        id: new-issue
-        with:
-          branch: release-v1.0.0
-          labels: cherry-pick
-      - run: |
-            echo "${{ steps.new-issue.outputs.data }}"
-            echo "${{ steps.new-issue.outputs.number }}" 
-            echo "${{ steps.new-issue.outputs.html_url }}"
+      # - name: Cherry pick into release/${{inputs.release_version}}
+      #   if: ${{ contains(github.event.pull_request.labels.*.name, 'release/${{inputs.release_version}}') && github.event.pull_request.merged == true }}
+      #   uses: 
+      #     actions/checkout@v3
+      #     carloscastrojumo/github-cherry-pick-action@v1.0.1
+      #   id: new-issue
+      #   with:
+      #     branch: release-v1.0.0
+      #     labels: cherry-pick
+      # - run: |
+      #       echo "${{ steps.new-issue.outputs.data }}"
+      #       echo "${{ steps.new-issue.outputs.number }}" 
+      #       echo "${{ steps.new-issue.outputs.html_url }}"
