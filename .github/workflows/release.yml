@@ -73,7 +73,7 @@ jobs:
           carloscastrojumo/github-cherry-pick-action@v1.0.1
         id: new-issue
         with:
-          branch: "release-${{inputs.release_version}}"
+          branch: release-v1.0.0
           labels: cherry-pick
       - run: |
             echo "${{ steps.new-issue.outputs.data }}"
