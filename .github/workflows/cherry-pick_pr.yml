@@ -41,3 +41,4 @@ jobs:
           old_string: "**Write you description here**"
           new_string: ${{ github.event.commits[0].message }}
           get_diff: true
+          target_branch : 'main'
