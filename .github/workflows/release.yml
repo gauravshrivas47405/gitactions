@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Cherry pick into release-${{inputs.release_version}}
+      - name: Cherry pick into release/${{inputs.release_version}}
         uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
         with:
           branch: release/${{inputs.release_version}}
