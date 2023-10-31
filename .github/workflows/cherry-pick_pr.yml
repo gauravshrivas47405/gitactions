@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    if: github.event.review.state == 'approved'
+    # if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
 
     steps:
