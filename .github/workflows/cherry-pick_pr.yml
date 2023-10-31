@@ -1,0 +1,15 @@
+name: Cherry-pick PR
+
+on:
+  push:
+    branches:
+      - release/*
+   
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Just checking 
+        uses: actions/checkout@v3
