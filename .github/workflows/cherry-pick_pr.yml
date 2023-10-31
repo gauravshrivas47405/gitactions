@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Create Release Branch
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          echo "::Checking if workfolw executed or not"
+    - name: create pull request
+      run: gh pr create -B main -H branch_to_merge --title 'Merge branch_to_merge into main' --body 'Created by Github action'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
