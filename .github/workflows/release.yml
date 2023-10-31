@@ -68,7 +68,7 @@ jobs:
 
       - name: Cherry pick into release/${{inputs.release_version}}
         if: ${{ contains(github.event.pull_request.labels.*.name, 'release/${{inputs.release_version}}') && github.event.pull_request.merged == true }}
-        uses: |
+        uses: 
           actions/checkout@v3
           carloscastrojumo/github-cherry-pick-action@v1.0.1
         id: new-issue
