@@ -74,7 +74,7 @@ jobs:
       - name: Cherry pick into release-${{inputs.release_version}}
         uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
         with:
-          branch: release-${{inputs.release_version}}
+          branch: release/${{inputs.release_version}}
           labels: |
             cherry-pick
           reviewers: |
