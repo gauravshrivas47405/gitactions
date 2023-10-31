@@ -30,7 +30,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          echo ":: ${{github.refgithub.ref}}"
+          github.refgithub.ref
       # - name: Run the Action
       #   if: startsWith(github.ref, 'refs/heads/feature')
       #   uses: devops-infra/action-pull-request@v0.5.5
