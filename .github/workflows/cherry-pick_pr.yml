@@ -1,22 +1,18 @@
 name: Cherry-pick PR
 
 on:
-  push:
-    branches:
-      - release/*
-   
+  pull_request_review:
+    types: [submitted]
+
 jobs:
   build:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
       - name: Create Release Branch
         run: |
-          git checkout -b release/${{inputs.release_version}}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           echo "::Checking if workfolw executed or not"
