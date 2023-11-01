@@ -22,4 +22,4 @@ jobs:
           new_string: ${{ github.event.commits[0].message }}
           get_diff: true
           target_branch : 'main'
-          source_branch : ${{ github.ref }}
+          source_branch : ${{ github.head_ref || github.ref_name }} 
