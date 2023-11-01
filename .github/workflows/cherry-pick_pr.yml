@@ -1,26 +1,10 @@
-# name: Cherry-pick PR
-
-# # on:
-# #   pull_request_review:
-# #     types: [submitted]
-# on:
-#   workflow_dispatch:
-# jobs:
-#   build:
-#     if: github.event.review.state == 'approved'
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     - name: create pull request
-#       run: gh pr create -B main -H branch_to_merge --title 'Merge branch_to_merge into main' --body 'Created by Github action'
-#       env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-name: Run the Action on each commit
+name: Cherry-pick PR for Release Branch
 on:
   push:
-    branches-ignore: [main]
+    branches:    
+      - ! main
+      - ! 'feat/**'
+      - 'releases/**'
 jobs:
   action-pull-request:
     runs-on: ubuntu-latest
