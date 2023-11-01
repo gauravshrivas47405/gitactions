@@ -13,8 +13,8 @@ jobs:
       
       - name: Check merge conflicts
         run : |
-          git fetch origin
-          git merge --no-commit origin/the-base-branch
+          git fetch origin 
+          git merge --no-commit ${{ github.head_ref || github.ref_name }}
           if [ $? -ne 0 ]; then
               echo there are conflicts
           fi
