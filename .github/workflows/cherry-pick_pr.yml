@@ -37,7 +37,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ github.event.commits[0].message }}
           assignee: ${{ github.actor }}
-          label: automatic,release
+          label: bug
           new_string: ${{ github.event.commits[0].message }}
           # get_diff: true
           target_branch : 'main'
@@ -49,10 +49,7 @@ jobs:
           github_token: ${{ github.token }}
 
           # --- Optional Inputs ---
-          # To make sure the merge commit exactly matches the branch
           detect_merge_changes: false # or true to handle as conflicts
-          # By default a comment will be left, adding `conflict_comment: ''` will disable comments
-          # The optional `${author}` will be replaced with the username of the pull request
           conflict_comment: |
             :wave: Hi, ${{github.actor}},
             I detected conflicts against the base branch.
