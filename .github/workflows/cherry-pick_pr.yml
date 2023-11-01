@@ -35,7 +35,6 @@ jobs:
             I detected conflicts against the base branch.
             Please resolve the conflict.
      
-  
       # - name: Check merge conflicts
       #   run : |
       #     git config --local user.email "action@github.com"
