@@ -39,7 +39,7 @@ jobs:
           assignee: ${{ github.actor }}
           label: automatic,release
           new_string: ${{ github.event.commits[0].message }}
-          get_diff: true
+          # get_diff: true
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
 
@@ -54,7 +54,7 @@ jobs:
           # By default a comment will be left, adding `conflict_comment: ''` will disable comments
           # The optional `${author}` will be replaced with the username of the pull request
           conflict_comment: |
-            :wave: Hi, user.name,
+            :wave: Hi, ${{github.actor}},
             I detected conflicts against the base branch :speak_no_evil:
             You'll want to sync :arrows_counterclockwise: your branch with upstream!
      
