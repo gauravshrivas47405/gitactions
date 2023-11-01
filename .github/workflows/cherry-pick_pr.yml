@@ -14,7 +14,7 @@ jobs:
       - name: Check merge conflicts
         run : |
           git fetch origin 
-          git merge --no-commit main
+          git merge --no-commit origin/main
           if [ $? -ne 0 ]; then
               echo there are conflicts
           fi
