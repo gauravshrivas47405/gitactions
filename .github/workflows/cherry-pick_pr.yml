@@ -22,13 +22,6 @@ jobs:
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
 
-  notify-reporty-if-conflicts:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
@@ -38,19 +31,3 @@ jobs:
             :wave: Hi, ${{github.actor}},
             I detected conflicts against the base branch.
             Please resolve the conflict.
-     
-      # - name: Check merge conflicts
-      #   run : |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git fetch origin 
-      #     git merge --no-commit origin/main
-      #     # if [ $? -ne 0 ]; then
-      #     #     echo there are conflicts
-      #     # fi
-    
-      # - uses: nokamoto/merge-conflict-action@v0.0.4
-      #   with:
-      #     owner: nokamoto
-      #     repo: merge-conflict-action
-      #     token: ${{ secrets.GITHUB_TOKEN }}
