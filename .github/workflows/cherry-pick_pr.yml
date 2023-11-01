@@ -11,6 +11,14 @@ jobs:
         with:
           fetch-depth: 0
       
+      - name: Check merge conflicts
+        run : |
+          git fetch origin
+          git merge --no-commit origin/the-base-branch
+          if [ $? -ne 0 ]; then
+              echo there are conflicts
+          fi
+      
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
         uses: devops-infra/action-pull-request@v0.5.5
