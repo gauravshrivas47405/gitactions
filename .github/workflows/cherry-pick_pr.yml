@@ -10,6 +10,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Merge Conflict finder
+        uses: olivernybroe/action-conflict-finder@v2.0
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
         uses: devops-infra/action-pull-request@v0.5.5
@@ -23,11 +25,14 @@ jobs:
           get_diff: true
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
+
+        # Run the actual merge conflict finder
      
-      - uses: actions/checkout@v3
-      - name: List files with merge conflict markers
-        run: git --no-pager grep "<<<<<<<" ":(exclude).github/" || true
-      - name: Fail or succeed job if any files with merge conflict markers have been checked in
-        # Find lines containing "<<<<<<<", then count the number of lines.
-        # 0 matching lines results in exit code 0, i.e. success.
-        run: exit $(git grep "<<<<<<<" ":(exclude).github/" | wc --lines)
+      
+      # - uses: actions/checkout@v3
+      # - name: List files with merge conflict markers
+      #   run: git --no-pager grep "<<<<<<<" ":(exclude).github/" || true
+      # - name: Fail or succeed job if any files with merge conflict markers have been checked in
+      #   # Find lines containing "<<<<<<<", then count the number of lines.
+      #   # 0 matching lines results in exit code 0, i.e. success.
+      #   run: exit $(git grep "<<<<<<<" ":(exclude).github/" | wc --lines)
