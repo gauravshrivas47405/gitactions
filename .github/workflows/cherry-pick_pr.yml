@@ -1,7 +1,7 @@
-name: Run the Action on each commit
+name: Cherry-pick PR for Release Branch
 on:
   push:
-    branches-ignore: [main]
+    branches: ['releases/**']
 jobs:
   action-pull-request:
     runs-on: ubuntu-latest
