@@ -41,6 +41,7 @@ jobs:
             :wave: Hi, @${author},
             I detected conflicts against the base branch :speak_no_evil:
             You'll want to sync :arrows_counterclockwise: your branch with upstream!
+            
       
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
