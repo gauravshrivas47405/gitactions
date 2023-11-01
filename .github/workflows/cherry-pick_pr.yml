@@ -10,8 +10,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Merge Conflict finder
-        uses: olivernybroe/action-conflict-finder@v2.0
+      
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
         uses: devops-infra/action-pull-request@v0.5.5
@@ -26,7 +25,8 @@ jobs:
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
 
-        # Run the actual merge conflict finder
+      - name: Merge Conflict finder
+        uses: olivernybroe/action-conflict-finder@v2.0
      
       
       # - uses: actions/checkout@v3
