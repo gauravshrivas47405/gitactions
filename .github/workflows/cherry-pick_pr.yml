@@ -1,7 +1,7 @@
 name: Cherry-pick PR for Release Branch
 on:
   push:
-    branches: ['releases/**']
+    branches: ['release/**']
 jobs:
   action-pull-request:
     runs-on: ubuntu-latest
