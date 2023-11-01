@@ -1,16 +1,44 @@
-name: Cherry-pick PR for Release Branch
+name: Create cherry-pick PR
 on:
   push:
     branches: ['release/**']
 jobs:
-  action-pull-request:
+  create-cherry-pick-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
+      - name: Run the Action
+        if: startsWith(github.ref, 'refs/heads/release')
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ github.event.commits[0].message }}
+          assignee: ${{ github.actor }}
+          label: bug
+          new_string: ${{ github.event.commits[0].message }}
+          target_branch : 'main'
+          source_branch : ${{ github.head_ref || github.ref_name }} 
+
+  notify-reporty-if-conflicts:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: prince-chrismc/label-merge-conflicts-action@v3
+        with:
+          conflict_label_name: "has conflict"
+          github_token: ${{ github.token }}
+          detect_merge_changes: false
+          conflict_comment: |
+            :wave: Hi, ${{github.actor}},
+            I detected conflicts against the base branch.
+            Please resolve the conflict.
+     
+
+
+
+  
       # - name: Check merge conflicts
       #   run : |
       #     git config --local user.email "action@github.com"
@@ -26,32 +54,3 @@ jobs:
       #     owner: nokamoto
       #     repo: merge-conflict-action
       #     token: ${{ secrets.GITHUB_TOKEN }}
-
-    
-
-      
-      - name: Run the Action
-        if: startsWith(github.ref, 'refs/heads/release')
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ github.event.commits[0].message }}
-          assignee: ${{ github.actor }}
-          label: bug
-          new_string: ${{ github.event.commits[0].message }}
-          # get_diff: true
-          target_branch : 'main'
-          source_branch : ${{ github.head_ref || github.ref_name }} 
-
-      - uses: prince-chrismc/label-merge-conflicts-action@v3
-        with:
-          conflict_label_name: "has conflict"
-          github_token: ${{ github.token }}
-
-          # --- Optional Inputs ---
-          detect_merge_changes: false # or true to handle as conflicts
-          conflict_comment: |
-            :wave: Hi, ${{github.actor}},
-            I detected conflicts against the base branch.
-            Please resolve the conflict.
-     
