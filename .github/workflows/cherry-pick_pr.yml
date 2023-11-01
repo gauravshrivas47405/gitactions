@@ -41,20 +41,20 @@ jobs:
             :wave: Hi, @${author},
             I detected conflicts against the base branch :speak_no_evil:
             You'll want to sync :arrows_counterclockwise: your branch with upstream!
-            
+
       
-      - name: Run the Action
-        if: startsWith(github.ref, 'refs/heads/release')
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ github.event.commits[0].message }}
-          assignee: ${{ github.actor }}
-          label: automatic,release
-          new_string: ${{ github.event.commits[0].message }}
-          get_diff: true
-          target_branch : 'main'
-          source_branch : ${{ github.head_ref || github.ref_name }} 
+      # - name: Run the Action
+      #   if: startsWith(github.ref, 'refs/heads/release')
+      #   uses: devops-infra/action-pull-request@v0.5.5
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     title: ${{ github.event.commits[0].message }}
+      #     assignee: ${{ github.actor }}
+      #     label: automatic,release
+      #     new_string: ${{ github.event.commits[0].message }}
+      #     get_diff: true
+      #     target_branch : 'main'
+      #     source_branch : ${{ github.head_ref || github.ref_name }} 
 
       # - name: Merge Conflict finder
       #   uses: olivernybroe/action-conflict-finder@v2.0
