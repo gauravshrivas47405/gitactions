@@ -11,15 +11,15 @@ jobs:
         with:
           fetch-depth: 0
       
-      # - name: Check merge conflicts
-      #   run : |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git fetch origin 
-      #     git merge --no-commit origin/main
-      #     if [ $? -ne 0 ]; then
-      #         echo there are conflicts
-      #     fi
+      - name: Check merge conflicts
+        run : |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git fetch origin 
+          git merge --no-commit origin/main
+          if [ $? -ne 0 ]; then
+              echo there are conflicts
+          fi
     
       - uses: nokamoto/merge-conflict-action@v0.0.4
         with:
@@ -40,6 +40,6 @@ jobs:
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
 
-      - name: Merge Conflict finder
-        uses: olivernybroe/action-conflict-finder@v2.0
+      # - name: Merge Conflict finder
+      #   uses: olivernybroe/action-conflict-finder@v2.0
      
