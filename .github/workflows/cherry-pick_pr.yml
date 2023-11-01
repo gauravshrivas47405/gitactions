@@ -55,6 +55,6 @@ jobs:
           # The optional `${author}` will be replaced with the username of the pull request
           conflict_comment: |
             :wave: Hi, ${{github.actor}},
-            I detected conflicts against the base branch :speak_no_evil:
-            You'll want to sync :arrows_counterclockwise: your branch with upstream!
+            I detected conflicts against the base branch.
+            Please resolve the conflict.
      
