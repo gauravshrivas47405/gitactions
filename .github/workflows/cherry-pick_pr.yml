@@ -17,9 +17,9 @@ jobs:
           git config --local user.name "GitHub Action"
           git fetch origin 
           git merge --no-commit origin/main
-          if [ $? -ne 0 ]; then
-              echo there are conflicts
-          fi
+          # if [ $? -ne 0 ]; then
+          #     echo there are conflicts
+          # fi
     
       - uses: nokamoto/merge-conflict-action@v0.0.4
         with:
