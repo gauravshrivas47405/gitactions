@@ -38,7 +38,7 @@ jobs:
           # By default a comment will be left, adding `conflict_comment: ''` will disable comments
           # The optional `${author}` will be replaced with the username of the pull request
           conflict_comment: |
-            :wave: Hi, @${author},
+            :wave: Hi, @${user.name},
             I detected conflicts against the base branch :speak_no_evil:
             You'll want to sync :arrows_counterclockwise: your branch with upstream!
 
