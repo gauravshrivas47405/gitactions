@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Working on APP 32 -4</Text>
-      <Text>Testing form Feature branch!</Text>
+      <Text>Testing form Feature branch 1</Text>
       <StatusBar style="auto" />
     </View>
   );
