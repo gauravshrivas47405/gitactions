@@ -11,15 +11,21 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Check merge conflicts
-        run : |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git fetch origin 
-          git merge --no-commit origin/main
-          if [ $? -ne 0 ]; then
-              echo there are conflicts
-          fi
+      # - name: Check merge conflicts
+      #   run : |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git fetch origin 
+      #     git merge --no-commit origin/main
+      #     if [ $? -ne 0 ]; then
+      #         echo there are conflicts
+      #     fi
+    
+      - uses: nokamoto/merge-conflict-action@v0.0.4
+        with:
+          owner: nokamoto
+          repo: merge-conflict-action
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
@@ -29,7 +35,6 @@ jobs:
           title: ${{ github.event.commits[0].message }}
           assignee: ${{ github.actor }}
           label: automatic,release
-          # template: .github/PULL_REQUEST_TEMPLATE/FEATURE.md
           new_string: ${{ github.event.commits[0].message }}
           get_diff: true
           target_branch : 'main'
@@ -38,11 +43,3 @@ jobs:
       - name: Merge Conflict finder
         uses: olivernybroe/action-conflict-finder@v2.0
      
-      
-      # - uses: actions/checkout@v3
-      # - name: List files with merge conflict markers
-      #   run: git --no-pager grep "<<<<<<<" ":(exclude).github/" || true
-      # - name: Fail or succeed job if any files with merge conflict markers have been checked in
-      #   # Find lines containing "<<<<<<<", then count the number of lines.
-      #   # 0 matching lines results in exit code 0, i.e. success.
-      #   run: exit $(git grep "<<<<<<<" ":(exclude).github/" | wc --lines)
