@@ -13,6 +13,8 @@ jobs:
       
       - name: Check merge conflicts
         run : |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git fetch origin 
           git merge --no-commit origin/main
           if [ $? -ne 0 ]; then
