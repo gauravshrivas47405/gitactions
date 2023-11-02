@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       
       - name: Check merge conflicts
-        # continue-on-error: true
+        continue-on-error: true
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -40,7 +40,7 @@ jobs:
       
       - name: Run the Action
         
-        if: startsWith(github.ref, 'refs/heads/release') && success()
+        if: startsWith(github.ref, 'refs/heads/release') && failure()
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
