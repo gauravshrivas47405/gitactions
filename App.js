@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-      <Text>Setup the Cherry-pick PR Process for RC bug fixes</Text>
+      <Text>Setup the Cherry-pick PR Process for RC bug fixes -2</Text>
 
       <StatusBar style="auto" />
     </View>
