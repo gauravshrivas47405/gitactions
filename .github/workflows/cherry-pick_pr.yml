@@ -28,8 +28,6 @@ jobs:
       #     repo: merge-conflict-action
       #     token: ${{ secrets.GITHUB_TOKEN }}
 
-    
-
       
       # - name: Run the Action
       #   if: startsWith(github.ref, 'refs/heads/release')
