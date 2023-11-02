@@ -12,14 +12,14 @@ jobs:
           fetch-depth: 0
       
       - name: Check merge conflicts
-        continue-on-error: true
+        # continue-on-error: true
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
 
       - name : Notify to the user if conflicts found
-        if: success()
+        if: failure()
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
