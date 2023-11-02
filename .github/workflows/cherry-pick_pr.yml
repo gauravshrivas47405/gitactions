@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "Failed"
 
-      - name: Create comment if build fails
+      - name: Create comment if build Success
         if: ${{ success() }}
         run: |
           echo "Success"
