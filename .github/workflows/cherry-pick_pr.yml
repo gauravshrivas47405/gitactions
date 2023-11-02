@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       
       - name: Check merge conflicts
-        # continue-on-error: true
+        continue-on-error: true
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
