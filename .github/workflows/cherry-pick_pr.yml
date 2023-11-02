@@ -3,7 +3,7 @@ on:
   push:
     branches: ['release/**']
 jobs:
-  action-pull-request:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -12,15 +12,12 @@ jobs:
           fetch-depth: 0
       
       - name: Check merge conflicts
+        continue-on-error: true
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          # git fetch origin 
-          # git merge --no-commit origin/main
           git pull --no-commit --no-ff origin main
-          # if [ $? -ne 0 ]; then
-          #     echo there are conflicts
-          # fi
+         
     
       # - uses: nokamoto/merge-conflict-action@v0.0.4
       #   with:
