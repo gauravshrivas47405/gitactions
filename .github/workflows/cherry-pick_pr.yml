@@ -21,7 +21,7 @@ jobs:
           echo "Conflict found and exit" && exit 1
 
       - name : Notify to the user if conflicts found
-        if: ${{ steps.has-conflicts.conclusion == 'success' }}
+        if: ${{ failure() steps.has-conflicts.conclusion == 'success' }}
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
