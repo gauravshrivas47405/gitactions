@@ -15,9 +15,9 @@ jobs:
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git merge trunk --no-ff --no-commit
-          # git fetch origin 
-          # # git merge --no-commit origin/main
+          git fetch origin 
+          git merge --no-commit origin/main
+          git merge --abort
           # if [ $? -ne 0 ]; then
           #     echo there are conflicts
           #     echo "::set-output name=has_conflicts::yes"
