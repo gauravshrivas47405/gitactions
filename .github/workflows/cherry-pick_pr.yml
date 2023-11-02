@@ -18,7 +18,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
-          echo "Conflict found and exit" && exit 1
+          # echo "Conflict found and exit" && exit 1
 
       - name : Notify to the user if conflicts found
         if: ${{  steps.has-conflicts.conclusion == 'success' }}
