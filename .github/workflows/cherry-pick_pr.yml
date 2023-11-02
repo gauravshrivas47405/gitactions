@@ -18,8 +18,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
-          echo "This step will fail" && exit 1
 
+      - run : |
+          echo "This step will fail ${{steps.has-conflicts.conclusion}}" 
 
       - name : Notify to the user if conflicts found
         if: ${{ failure() && steps.has-conflicts.conclusion != 'failure' }}
@@ -34,7 +35,7 @@ jobs:
             Please resolve the conflict.
 
       - name: Create Cherry-pick PR
-        if: startsWith(github.ref, 'refs/heads/release') && steps.has-conflicts.conclusion == 'failure'
+        if: ${{ startsWith(github.ref, 'refs/heads/release') && steps.has-conflicts.conclusion == 'failure' }}
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
