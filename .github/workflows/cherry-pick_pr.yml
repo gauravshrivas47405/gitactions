@@ -20,6 +20,9 @@ jobs:
           git pull --no-commit --no-ff origin main
           # echo "Conflict found and exit" && exit 1
 
+      - run: |
+          echo "${{steps.has-conflicts.conclusion }}"
+
       - name : Notify to the user if conflicts found
         if: ${{ failure() &&  steps.has-conflicts.conclusion == 'success' }}
         uses: prince-chrismc/label-merge-conflicts-action@v3
