@@ -24,7 +24,6 @@ jobs:
         with:
           conflict_label_name: "has conflict"
           github_token: ${{ github.token }}
-          # --- Optional Inputs ---
           detect_merge_changes: false # or true to handle as conflicts
           conflict_comment: |
             :wave: Hi, ${{github.actor}},
@@ -39,17 +38,18 @@ jobs:
       #     token: ${{ secrets.GITHUB_TOKEN }}
 
       
-      # - name: Run the Action
-      #   if: startsWith(github.ref, 'refs/heads/release')
-      #   uses: devops-infra/action-pull-request@v0.5.5
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     title: ${{ github.event.commits[0].message }}
-      #     assignee: ${{ github.actor }}
-      #     label: hot-fix
-      #     new_string: ${{ github.event.commits[0].message }}
-      #     target_branch : 'main'
-      #     source_branch : ${{ github.head_ref || github.ref_name }} 
+      - name: Run the Action
+        
+        if: startsWith(github.ref, 'refs/heads/release') && success()
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ github.event.commits[0].message }}
+          assignee: ${{ github.actor }}
+          label: hot-fix
+          new_string: ${{ github.event.commits[0].message }}
+          target_branch : 'main'
+          source_branch : ${{ github.head_ref || github.ref_name }} 
 
       # - uses: prince-chrismc/label-merge-conflicts-action@v3
       #   with:
