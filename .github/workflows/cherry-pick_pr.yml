@@ -19,7 +19,7 @@ jobs:
           git pull --no-commit --no-ff origin main
         # Need to check how to trigger an Email
       - name : Notify to the user if conflicts found
-        if: success()
+        if: failure()
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
@@ -32,7 +32,7 @@ jobs:
       
       - name: Run the Action
         
-        if: startsWith(github.ref, 'refs/heads/release') && failure()
+        if: startsWith(github.ref, 'refs/heads/release') && success()
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
