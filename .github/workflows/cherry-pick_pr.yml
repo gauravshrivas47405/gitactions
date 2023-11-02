@@ -19,7 +19,7 @@ jobs:
           git pull --no-commit --no-ff origin main
 
       - name : Notify to the user if conflicts found
-        if: success()
+        if: failure()
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
