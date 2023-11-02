@@ -34,7 +34,7 @@ jobs:
             Please resolve the conflict.
 
       - name: Create Cherry-pick PR
-        if: startsWith(github.ref, 'refs/heads/release') && success() && steps.has-conflicts.conclusion == 'failure'
+        if: startsWith(github.ref, 'refs/heads/release') && steps.has-conflicts.conclusion == 'failure'
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
