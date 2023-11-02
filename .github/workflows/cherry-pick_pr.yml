@@ -13,7 +13,7 @@ jobs:
       
       - name: Check merge conflicts
         id: has-conflicts
-        continue-on-error: true
+        # continue-on-error: true
         run : |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -29,7 +29,7 @@ jobs:
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           detect_merge_changes: false 
           conflict_comment: |
             :wave: Hi, ${{github.actor}},
