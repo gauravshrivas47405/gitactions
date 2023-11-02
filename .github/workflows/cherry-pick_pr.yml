@@ -3,7 +3,7 @@ on:
   push:
     branches: ['release/**']
 jobs:
-  build:
+  check_conflicts:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -17,7 +17,12 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
-        # Need to check how to trigger an Email
+          
+  conflicts_found_notify_user:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name : Notify to the user if conflicts found
         if: failure()
         uses: prince-chrismc/label-merge-conflicts-action@v3
@@ -29,8 +34,15 @@ jobs:
             :wave: Hi, ${{github.actor}},
             I detected conflicts against the base branch.
             Please resolve the conflict.
-      
-      - name: Run the Action
+
+  create_cherry-pic_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Create Cherry-pick PR
         
         if: startsWith(github.ref, 'refs/heads/release') && success()
         uses: devops-infra/action-pull-request@v0.5.5
