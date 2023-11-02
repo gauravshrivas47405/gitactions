@@ -1,39 +1,16 @@
-name: Create cherry-pick PR
+name: Cherry-pick PR for Release Branch
 on:
   push:
     branches: ['release/**']
-
 jobs:
-   job1:
+  action-pull-request:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Check merge conflicts
-        run : |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git fetch origin 
-          git merge --no-commit origin/main
-          git merge --abort
-          # if [ $? -ne 0 ]; then
-          #     echo there are conflicts
-          #     echo "::set-output name=has_conflicts::yes"
-          # fi
-    outputs:
-          run_job_job2: ${{ steps.set.outputs.run_job_job2 }}
-   job2:
-    runs-on: ubuntu-latest
-    needs:
-      - job1
-    if: needs.a.outputs.run_job_job2 != 'yes'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      
       # - name: Check merge conflicts
       #   run : |
       #     git config --local user.email "action@github.com"
@@ -43,6 +20,16 @@ jobs:
       #     # if [ $? -ne 0 ]; then
       #     #     echo there are conflicts
       #     # fi
+    
+      # - uses: nokamoto/merge-conflict-action@v0.0.4
+      #   with:
+      #     owner: nokamoto
+      #     repo: merge-conflict-action
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+
+    
+
+      
       - name: Run the Action
         if: startsWith(github.ref, 'refs/heads/release')
         uses: devops-infra/action-pull-request@v0.5.5
@@ -50,61 +37,19 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ github.event.commits[0].message }}
           assignee: ${{ github.actor }}
-          label: bug
+          label: hot-fix
           new_string: ${{ github.event.commits[0].message }}
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
 
-      # - uses: prince-chrismc/label-merge-conflicts-action@v3
-      #   with:
-      #     conflict_label_name: "has conflict"
-      #     github_token: ${{ github.token }}
-      #     detect_merge_changes: false
-      #     conflict_comment: |
-      #       :wave: Hi, ${{github.actor}},
-      #       I detected conflicts against the base branch.
-      #       Please resolve the conflict.
+      - uses: prince-chrismc/label-merge-conflicts-action@v3
+        with:
+          conflict_label_name: "has conflict"
+          github_token: ${{ github.token }}
+          # --- Optional Inputs ---
+          detect_merge_changes: false # or true to handle as conflicts
+          conflict_comment: |
+            :wave: Hi, ${{github.actor}},
+            I detected conflicts against the base branch.
+            Please resolve the conflict.
      
-
-      # - name: Send mail
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #     # Specify connection via URL (replaces server_address, server_port, secure,
-      #     # username and password)
-      #     #
-      #     # Format:
-      #     #
-      #     #  * smtp://user:password@server:port
-      #     #  * smtp+starttls://user:password@server:port
-      #     connection_url: ${{secrets.MAIL_CONNECTION}}
-      #     # Required mail server address if not connection_url:
-      #     server_address: smtp.gmail.com
-      #     # Server port, default 25:
-      #     server_port: 465
-      #     # Optional whether this connection use TLS (default is true if server_port is 465)
-      #     secure: true
-      #     # Optional (recommended) mail server username:
-      #     username: ${{secrets.MAIL_USERNAME}}
-      #     # Optional (recommended) mail server password:
-      #     password: ${{secrets.MAIL_PASSWORD}}
-      #     # Required mail subject:
-      #     subject: Github Actions job result
-      #     # Required recipients' addresses:
-      #     to: gaurav.shrivas@zensar.com,
-      #     # Required sender full name (address can be skipped):
-      #     from: Luke Skywalker # <user@example.com>
-      #     # Optional plain body:
-      #     body: Build job of ${{github.repository}} completed successfully!
-      #     # Optional HTML body read from file:
-      #     html_body: file://README.html
-      #     # Optional priority: 'high', 'normal' (default) or 'low'
-      #     priority: high
-
-  
-      
-    
-      # - uses: nokamoto/merge-conflict-action@v0.0.4
-      #   with:
-      #     owner: nokamoto
-      #     repo: merge-conflict-action
-      #     token: ${{ secrets.GITHUB_TOKEN }}
