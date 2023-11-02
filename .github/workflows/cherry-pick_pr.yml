@@ -11,15 +11,16 @@ jobs:
         with:
           fetch-depth: 0
       
-      # - name: Check merge conflicts
-      #   run : |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git fetch origin 
-      #     git merge --no-commit origin/main
-      #     # if [ $? -ne 0 ]; then
-      #     #     echo there are conflicts
-      #     # fi
+      - name: Check merge conflicts
+        run : |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # git fetch origin 
+          # git merge --no-commit origin/main
+          git pull --no-commit --no-ff origin main
+          # if [ $? -ne 0 ]; then
+          #     echo there are conflicts
+          # fi
     
       # - uses: nokamoto/merge-conflict-action@v0.0.4
       #   with:
@@ -30,26 +31,26 @@ jobs:
     
 
       
-      - name: Run the Action
-        if: startsWith(github.ref, 'refs/heads/release')
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ github.event.commits[0].message }}
-          assignee: ${{ github.actor }}
-          label: hot-fix
-          new_string: ${{ github.event.commits[0].message }}
-          target_branch : 'main'
-          source_branch : ${{ github.head_ref || github.ref_name }} 
+      # - name: Run the Action
+      #   if: startsWith(github.ref, 'refs/heads/release')
+      #   uses: devops-infra/action-pull-request@v0.5.5
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     title: ${{ github.event.commits[0].message }}
+      #     assignee: ${{ github.actor }}
+      #     label: hot-fix
+      #     new_string: ${{ github.event.commits[0].message }}
+      #     target_branch : 'main'
+      #     source_branch : ${{ github.head_ref || github.ref_name }} 
 
-      - uses: prince-chrismc/label-merge-conflicts-action@v3
-        with:
-          conflict_label_name: "has conflict"
-          github_token: ${{ github.token }}
-          # --- Optional Inputs ---
-          detect_merge_changes: false # or true to handle as conflicts
-          conflict_comment: |
-            :wave: Hi, ${{github.actor}},
-            I detected conflicts against the base branch.
-            Please resolve the conflict.
+      # - uses: prince-chrismc/label-merge-conflicts-action@v3
+      #   with:
+      #     conflict_label_name: "has conflict"
+      #     github_token: ${{ github.token }}
+      #     # --- Optional Inputs ---
+      #     detect_merge_changes: false # or true to handle as conflicts
+      #     conflict_comment: |
+      #       :wave: Hi, ${{github.actor}},
+      #       I detected conflicts against the base branch.
+      #       Please resolve the conflict.
      
