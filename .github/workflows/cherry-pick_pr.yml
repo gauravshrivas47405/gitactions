@@ -17,6 +17,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
+          exit 1
           
   conflicts_found_notify_user:
     runs-on: ubuntu-latest
