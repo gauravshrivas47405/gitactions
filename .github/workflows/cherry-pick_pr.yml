@@ -22,22 +22,8 @@ jobs:
           echo ::set-output name=exit_code::$?
           echo "Exited with $?"
 
-      - name: Create comment if build fails
-        if: ${{ failure() }}
-        run: |
-          echo "Failed"
-
-      - name: Create comment if build Success
-        if: ${{ success() }}
-        run: |
-          echo "Success"
-
-      - run: |
-          echo "${{steps.has-conflicts.conclusion }}"
-          echo "${{steps.has-conflicts }}"
-
-      # - name : Notify to the user if conflicts found
-      #   if: ${{ steps.has-conflicts.conclusion != 'success' }}
+      # - name: Create comment if build fails
+      #   if: ${{ failure() }}
       #   uses: prince-chrismc/label-merge-conflicts-action@v3
       #   with:
       #     conflict_label_name: "has conflict"
@@ -47,18 +33,46 @@ jobs:
       #       :wave: Hi, ${{github.actor}},
       #       I detected conflicts against the base branch.
       #       Please resolve the conflict.
+      #   run: |
+      #     echo "Failed"
 
-      # - name: Create Cherry-pick PR
-      #   if: ${{ startsWith(github.ref, 'refs/heads/release') && steps.has-conflicts.conclusion == 'success' }}
-      #   uses: devops-infra/action-pull-request@v0.5.5
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     title: ${{ github.event.commits[0].message }}
-      #     assignee: ${{ github.actor }}
-      #     label: hot-fix
-      #     new_string: ${{ github.event.commits[0].message }}
-      #     target_branch : 'main'
-      #     source_branch : ${{ github.head_ref || github.ref_name }} 
+      - name: Create comment if build Success
+        if: ${{ success() }}
+        run: |
+          echo "Success"
+
+      - name: Create comment if build failure
+        if: ${{ failure() }}
+        run: |
+          echo "failure"
+
+      - run: |
+          echo "${{steps.has-conflicts.conclusion }}"
+          echo "${{steps.has-conflicts }}"
+
+      - name : Notify to the user if conflicts found
+        if: ${{ failure() }}
+        uses: prince-chrismc/label-merge-conflicts-action@v3
+        with:
+          conflict_label_name: "has conflict"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          detect_merge_changes: false 
+          conflict_comment: |
+            :wave: Hi, ${{github.actor}},
+            I detected conflicts against the base branch.
+            Please resolve the conflict.
+
+      - name: Create Cherry-pick PR
+        if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
+        uses: devops-infra/action-pull-request@v0.5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ github.event.commits[0].message }}
+          assignee: ${{ github.actor }}
+          label: hot-fix
+          new_string: ${{ github.event.commits[0].message }}
+          target_branch : 'main'
+          source_branch : ${{ github.head_ref || github.ref_name }} 
 
 
 
