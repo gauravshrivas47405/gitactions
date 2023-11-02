@@ -4,7 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Working on APP 32 -480</Text>
+
+      <Text>Setup the Cherry-pick PR Process for RC bug fixes</Text>
+
       <StatusBar style="auto" />
     </View>
   );
