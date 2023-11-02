@@ -22,7 +22,7 @@ jobs:
 
 
       - name : Notify to the user if conflicts found
-        if: ${{ failure() && steps.has-conflicts.conclusion == 'failure' }}
+        if: ${{ failure() && steps.has-conflicts.conclusion != 'failure' }}
         uses: prince-chrismc/label-merge-conflicts-action@v3
         with:
           conflict_label_name: "has conflict"
@@ -34,8 +34,7 @@ jobs:
             Please resolve the conflict.
 
       - name: Create Cherry-pick PR
-        
-        if: startsWith(github.ref, 'refs/heads/release') && success() && steps.has-conflicts.conclusion != 'failure'
+        if: startsWith(github.ref, 'refs/heads/release') && success() && steps.has-conflicts.conclusion == 'failure'
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
