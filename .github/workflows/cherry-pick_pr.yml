@@ -42,5 +42,3 @@ jobs:
           new_string: ${{ github.event.commits[0].message }}
           target_branch : 'main'
           source_branch : ${{ github.head_ref || github.ref_name }} 
-
-     
