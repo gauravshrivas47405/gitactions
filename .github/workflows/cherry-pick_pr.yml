@@ -31,18 +31,27 @@ jobs:
       #       I detected conflicts against the base branch.
       #       Please resolve the conflict.
 
-      - name : Notify to the user if conflicts found
-        if: ${{ failure() }}
-        uses: wadeww/send-email-action@master
+      # - name : Notify to the user if conflicts found
+      #   if: ${{ failure() }}
+      #   uses: wadeww/send-email-action@master
+      #   with:
+      #     server_address: github.com
+      #     port: 443
+      #     username: ${{secrets.MAIL_USERNAME}}
+      #     password: ${{secrets.MAIL_PASSWORD}}
+      #     subject: Workflow Failed
+      #     body: Conflict found
+      #     to: gaurav.shrivas@zensar.con
+      #     from: notifications@github.com
+
+      - name: Send email
+        uses: devellany/send-mailer@v1.0.2
         with:
-          server_address: github.com
-          port: 465
-          username: ${{secrets.MAIL_USERNAME}}
+          host: smtp.google.com
+          account: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: Workflow Failed
-          body: Conflict found
-          to: gaurav.shrivas@zensar.con
-          from: notifications@github.com
+          sender: devellany
+          from: ${{secrets.MAIL_ADDRESS}}
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
