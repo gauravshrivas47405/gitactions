@@ -34,8 +34,9 @@ jobs:
       - name : Notify to the user if conflicts found
         if: ${{ failure() }}
         run: |
-          echo "${{git config --global user.email}}"
-          echo "${{git config --global user.name}}"
+          echo ::git config --global user.email::$email
+          echo ::git config --global user.name::$name
+           echo "email $email and name $name"
 
      
 
