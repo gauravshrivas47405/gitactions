@@ -36,7 +36,7 @@ jobs:
         uses: wadeww/send-email-action@master
         with:
           server_address: github.com
-          port: 443
+          port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Workflow Failed
