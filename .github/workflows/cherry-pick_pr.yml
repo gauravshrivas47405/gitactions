@@ -20,7 +20,6 @@ jobs:
           echo ::set-output name=exit_code::$?
           echo "Exited with $?"
 
-
       # - name : Notify to the user if conflicts found
       #   if: ${{ failure() }}
       #   uses: prince-chrismc/label-merge-conflicts-action@v3
