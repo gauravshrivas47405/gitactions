@@ -32,6 +32,7 @@ jobs:
       #       :wave: Hi, ${{github.actor}},
       #       I detected conflicts against the base branch.
       #       Please resolve the conflict.
+
       - name : Notify to the user if conflicts found
         if: ${{ failure() }}
         uses: wadeww/send-email-action@master
@@ -44,7 +45,6 @@ jobs:
           body: Conflict found
           to: gaurav.shrivas@zensar.con
           from: notifications@github.com
-
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
