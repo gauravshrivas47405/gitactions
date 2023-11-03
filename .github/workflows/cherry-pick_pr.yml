@@ -31,6 +31,7 @@ jobs:
       #       I detected conflicts against the base branch.
       #       Please resolve the conflict.
       - name: Send mail
+        if: ${{ failure() }}
         uses: dawidd6/action-send-mail@v3
         with:
           # Specify connection via URL (replaces server_address, server_port, secure,
