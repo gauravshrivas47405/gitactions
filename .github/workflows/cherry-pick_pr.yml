@@ -21,17 +21,30 @@ jobs:
           echo "Exited with $?"
 
 
+      # - name : Notify to the user if conflicts found
+      #   if: ${{ failure() }}
+      #   uses: prince-chrismc/label-merge-conflicts-action@v3
+      #   with:
+      #     conflict_label_name: "has conflict"
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     detect_merge_changes: false 
+      #     conflict_comment: |
+      #       :wave: Hi, ${{github.actor}},
+      #       I detected conflicts against the base branch.
+      #       Please resolve the conflict.
       - name : Notify to the user if conflicts found
         if: ${{ failure() }}
-        uses: prince-chrismc/label-merge-conflicts-action@v3
+        uses: wadeww/send-email-action@master
         with:
-          conflict_label_name: "has conflict"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          detect_merge_changes: false 
-          conflict_comment: |
-            :wave: Hi, ${{github.actor}},
-            I detected conflicts against the base branch.
-            Please resolve the conflict.
+          server_address: smtp.gmail.com
+          port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Workflow Failed
+          body: Conflict found
+          to: gaurav.shrivas@zensar.con
+          from: notifications@github.com
+
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
