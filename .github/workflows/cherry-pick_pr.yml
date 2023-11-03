@@ -30,15 +30,35 @@ jobs:
       #       :wave: Hi, ${{github.actor}},
       #       I detected conflicts against the base branch.
       #       Please resolve the conflict.
-
-      - name : Notify to the user if conflicts found
-        if: ${{ failure() }}
-        run: |
-          git config --global user.email
-          git config --global user.name
-
-     
-
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Specify connection via URL (replaces server_address, server_port, secure,
+          # username and password)
+          #
+          # Format:
+          #
+          #  * smtp://user:password@server:port
+          #  * smtp+starttls://user:password@server:port
+          connection_url: https://github.com/gauravshrivas47405/gitactions/ 
+          # ${{secrets.MAIL_CONNECTION}}
+          # Required mail server address if not connection_url:
+          server_address: smtp.github.com
+          # Server port, default 25:
+          server_port: 465
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: ${{secrets.MAIL_USERNAME}}
+          # Optional (recommended) mail server password:
+          password: ${{secrets.MAIL_PASSWORD}}
+          # Required mail subject:
+          subject: Github Actions job result
+          # Required recipients' addresses:
+          to: gaurav.shrivas@zensar.com
+          # Required sender full name (address can be skipped):
+          from: gaurav.shrivas@zensar.com # <user@example.com>
+          priority: High
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
