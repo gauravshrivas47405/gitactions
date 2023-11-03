@@ -52,7 +52,9 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           sender: devellany
           from: ${{secrets.MAIL_ADDRESS}}
+          to: gaurav.shrivas@zensar.com
 
+          
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
         uses: devops-infra/action-pull-request@v0.5.5
