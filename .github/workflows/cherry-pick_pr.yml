@@ -26,9 +26,11 @@ jobs:
         with:
           webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
           message: >-
-            Hi ${{github.actor}}
+            Hi ${{github.actor}},
+
             Failed to create PR, Your recent commit ${{ github.event.commits[0].message }} has merge conflicts.
-            Please raise a PR raise the PR manually
+            
+            Please raise the PR manually.
           status: Failure
 
       - name: Create Cherry-pick PR
