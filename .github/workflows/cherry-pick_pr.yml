@@ -18,41 +18,18 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
-          echo ::set-output name=exit_code::$?
-          echo "Exited with $?"
+         
 
-      # - name : Notify to the user if conflicts found
-      #   if: ${{ failure() }}
-      #   uses: prince-chrismc/label-merge-conflicts-action@v3
-      #   with:
-      #     conflict_label_name: "has conflict"
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     detect_merge_changes: false 
-      #     conflict_comment: |
-      #       :wave: Hi, ${{github.actor}},
-      #       I detected conflicts against the base branch.
-      #       Please resolve the conflict.
-      # - name: Send mail
-      #   if: ${{ failure() }}
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #     # Specify connection via URL (replaces server_address, server_port, secure,
-      #     # username and password)
-      #     #
-      #     # Format:
-      #     #
-      #     #  * smtp://user:password@server:port
-      #     #  * smtp+starttls://user:password@server:port
-      #     connection_url: ${{secrets.MAIL_CONNECTION}}
-      #     server_address: smtp.github.com
-      #     server_port: 433
-      #     secure: true
-      #     subject: Github Actions job result
-      #     to: gaurav.shrivas@zensar.com
-      #     from: gaurav.shrivas@zensar.com # <user@example.com>
-      #     priority: High
-
-     
+      - name : Notify to the developer if conflicts found
+        uses: neonidian/teams-notify-build-status@v3
+        if: ${{ !success() }} 
+        with:
+          webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
+          message: >-
+            Hi ${{github.actor}}
+            Failed to create PR, Your recent commit ${{ github.event.commits[0].message }} has merge conflicts.
+            Please raise a PR raise the PR manually
+          status: Failure
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
