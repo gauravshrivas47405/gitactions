@@ -11,8 +11,8 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          ${{github.event.pusher.email}}
-          
+         echo ${{github.event.pusher.email}}
+
       - name: Check merge conflicts
         run : |
           git config --local user.email "action@github.com"
