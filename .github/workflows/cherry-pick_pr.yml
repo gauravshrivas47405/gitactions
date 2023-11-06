@@ -10,7 +10,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
+      - run: |
+          ${{github.event.pusher.email}}
+          
       - name: Check merge conflicts
         run : |
           git config --local user.email "action@github.com"
@@ -50,8 +52,7 @@ jobs:
       #     from: gaurav.shrivas@zensar.com # <user@example.com>
       #     priority: High
 
-      - run: |
-          ${{github.event.pusher.email}}
+     
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
