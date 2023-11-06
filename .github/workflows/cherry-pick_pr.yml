@@ -49,6 +49,9 @@ jobs:
           to: gaurav.shrivas@zensar.com
           from: gaurav.shrivas@zensar.com # <user@example.com>
           priority: High
+          
+      - run: |
+          ${{github.event.pusher.email}}
 
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
