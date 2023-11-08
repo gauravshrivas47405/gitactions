@@ -38,7 +38,7 @@ jobs:
         if: ${{ !success() }} 
         with:
             regexp: "(FIX): .++" # Regex the title should match.
-            helpMessage: "Example: 'FEAT(APP-29): Set up the Icon Layer in the app'"
+            helpMessage: "Example: 'FIX(APP-29): Set up the Icon Layer in the app'"
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
         uses: devops-infra/action-pull-request@v0.5.5
