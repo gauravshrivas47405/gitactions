@@ -36,7 +36,7 @@ jobs:
         run: |
           echo "Test Pass with valid PR"
           echo  ${{startsWith('FIX',github.event.commits[0].message)}}
-          echo  ${{contains("FIX", github.event.commits[0].message)}}
+          echo  ${{contains('FIX', github.event.commits[0].message)}}
           echo  ${{github.event.commits[0].message}}
         # uses: neonidian/teams-notify-build-status@v3
         # with:
