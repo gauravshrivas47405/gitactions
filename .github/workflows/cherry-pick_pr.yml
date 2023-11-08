@@ -37,7 +37,8 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.commits[0].message }}
-          regex: '^/label\s*(.*?)\s*$'
+          regex: "(FIX|docs): .++"
+          # regex: '^/label\s*(.*?)\s*$'
 
       - if: ${{ !success() }}
         run: |
