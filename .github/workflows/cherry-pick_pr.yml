@@ -37,6 +37,7 @@ jobs:
         if: ${{ !success() && contains(fromJson('["FIX"]'), github.event.commits[0].message)}} 
         run: |
           echo "Test Pass with valid PR"
+          echo  ${{github.event.commits[0].message}}
         # uses: neonidian/teams-notify-build-status@v3
         # with:
         #   webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
