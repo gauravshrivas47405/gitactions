@@ -20,25 +20,30 @@ jobs:
           git pull --no-commit --no-ff origin main
          
 
-      - name : Notify to the developer if conflicts found
+      # - name : Notify to the developer if conflicts found
+      #   uses: neonidian/teams-notify-build-status@v3
+      #   if: ${{ !success() }} 
+      #   with:
+      #     webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
+      #     message: >-
+      #       Hi ${{github.actor}},
+
+      #       Failed to create PR, Your recent commit ${{ github.event.commits[0].message }} has merge conflicts.
+            
+      #       Please raise the PR manually.
+      #     status: Failure
+          
+      - name : Notify to the developer if PR title validation fail
+        if: ${{ !success() && !contains(fromJson('["FIX", "(", ,")" , , ":", "*"]'), github.event.commits[0].message)}} 
         uses: neonidian/teams-notify-build-status@v3
-        if: ${{ !success() }} 
         with:
           webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
           message: >-
             Hi ${{github.actor}},
-
-            Failed to create PR, Your recent commit ${{ github.event.commits[0].message }} has merge conflicts.
             
-            Please raise the PR manually.
+            We require pull request titles to follow the [PR Title Conventions](../blob/main/docs/pr_title_convention.md) and it looks like your proposed title needs to be adjusted.
+
           status: Failure
-          
-      - name: Validate PR title
-        uses: Slashgear/action-check-pr-title@v4.3.0
-        if: ${{ !success() }} 
-        with:
-            regexp: "(FIX): .++" # Regex the title should match.
-            helpMessage: "Example: 'FIX(APP-29): Set up the Icon Layer in the app'"
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
         uses: devops-infra/action-pull-request@v0.5.5
