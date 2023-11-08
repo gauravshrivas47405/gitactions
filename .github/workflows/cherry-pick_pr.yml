@@ -32,10 +32,10 @@ jobs:
       #     status: Failure
           
       - name : Notify to the developer if PR title validation fail
-        if: ${{ !success() && !startsWith('FIX(',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
+        if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
         run: |
           echo "Test Pass with valid PR"
-          echo  ${{startsWith('FIX(',github.event.commits[0].message)}}
+          echo  ${{startsWith('FIX',github.event.commits[0].message)}}
           echo  ${{contains(fromJson('["FIX"]'), github.event.commits[0].message)}}
         # uses: neonidian/teams-notify-build-status@v3
         # with:
