@@ -41,9 +41,9 @@ jobs:
           message: >-
             Hi ${{github.actor}},
             
-            We require pull request titles to follow the [PR Title Conventions](../blob/main/docs/pr_title_convention.md) and it looks like your proposed title needs to be adjusted.
-
+            We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
           status: Failure
+          
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
         uses: devops-infra/action-pull-request@v0.5.5
