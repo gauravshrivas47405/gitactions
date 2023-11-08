@@ -32,12 +32,21 @@ jobs:
       #     status: Failure
           
       - name : Notify to the developer if PR title validation fail
-        if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
-        run: |
-          echo "Test Pass with valid PR"
-          echo  ${{startsWith('FIX',github.event.commits[0].message)}}
-          echo  ${{contains('FIX', github.event.commits[0].message)}}
-          echo  ${{github.event.commits[0].message}}
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ github.event.commits[0].message }}
+          regex: '^/label\s*(.*?)\s*$'
+
+      - run: |
+          echo ${{steps.regex-match.outputs.match}}
+
+        # if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
+        # run: |
+        #   echo "Test Pass with valid PR"
+        #   echo  ${{startsWith('FIX',github.event.commits[0].message)}}
+        #   echo  ${{contains('FIX', github.event.commits[0].message)}}
+        #   echo  ${{github.event.commits[0].message}}
         # uses: neonidian/teams-notify-build-status@v3
         # with:
         #   webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
