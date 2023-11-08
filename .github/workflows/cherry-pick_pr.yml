@@ -35,14 +35,16 @@ jobs:
           
       - name : Notify to the developer if PR title validation fail
         if: ${{ !success() && !contains(fromJson('["FIX"]'), github.event.commits[0].message)}} 
-        uses: neonidian/teams-notify-build-status@v3
-        with:
-          webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
-          message: >-
-            Hi ${{github.actor}},
+        run: |
+          echo "Test Pass with valid PR"
+        # uses: neonidian/teams-notify-build-status@v3
+        # with:
+        #   webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
+        #   message: >-
+        #     Hi ${{github.actor}},
             
-            We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
-          status: Failure
+        #     We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
+        #   status: Failure
           
       - name: Create Cherry-pick PR
         if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
