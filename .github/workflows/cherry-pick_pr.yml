@@ -32,13 +32,15 @@ jobs:
       #     status: Failure
           
       - name : Notify to the developer if PR title validation fail
+        if: ${{ !success() }}
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
           text: ${{ github.event.commits[0].message }}
           regex: '^/label\s*(.*?)\s*$'
 
-      - run: |
+      - if: ${{ !success() }}
+        run: |
           echo ${{steps.regex-match.outputs.match}}
 
         # if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
