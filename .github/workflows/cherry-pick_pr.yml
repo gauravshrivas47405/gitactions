@@ -38,7 +38,6 @@ jobs:
         with:
           text: ${{ github.event.commits[0].message }}
           regex: '^FIX+\([A-Z]+\-[0-9]+\)+\:'
-
    
       - run: |
           echo "${{steps.regex-match.outputs.match}}"
