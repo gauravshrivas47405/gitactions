@@ -32,13 +32,12 @@ jobs:
       #     status: Failure
           
       - name : Notify to the developer if PR title validation fail
-        if: ${{ !success() }}
+        if: ${{ success() }}
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
           text: ${{ github.event.commits[0].message }}
-          regex: /[FIX(^A-Z-^0-9):]/g
-          # regex: '^/label\s*(.*?)\s*$'
+          regex: /FIX+\([A-Z]+\-[0-9]+\)+\:/
 
       - if: ${{ !success() }}
         run: |
