@@ -44,7 +44,7 @@ jobs:
       #     echo ${{steps.regex-match.outputs.match}}
       
       - name: "Checking commit-message format..."
-        if: ${{![ github.event.commits[0].message =~ '^\[(hotfix|\w+\-[0-9]+)\]( \w+)+$' ]}};then
+        if: ${{! github.event.commits[0].message =~ '^\[(hotfix|\w+\-[0-9]+)\]( \w+)+$' }};then
             echo -e "Your commit-message format is not valid:\n$COMMIT_MSG\n"
             echo "Valid format examples:"
             echo "[PSBO-123] My commit message"
