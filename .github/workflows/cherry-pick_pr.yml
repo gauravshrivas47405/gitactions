@@ -37,7 +37,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.commits[0].message }}
-          regex: '^FIX|FEAT+\([A-Z]+\-[0-9]+\)+\:'
+          regex: '^FIX+\([A-Z]+\-[0-9]+\)+\:'
 
    
       - run: |
