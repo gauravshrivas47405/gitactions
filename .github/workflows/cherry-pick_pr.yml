@@ -42,6 +42,7 @@ jobs:
       - if: ${{ steps.regex-match.outputs.match != null }}
         run: |
           echo ${{steps.regex-match.outputs.match}}
+          echo "Well done! Your commit-message is valid."
       
       # - if: ${{ !success() && !startsWith(github.event.commits[0].message, 'FIX(') }};then
       #       echo -e "Your commit-message format is not valid:\n$github.event.commits[0].message\n"
