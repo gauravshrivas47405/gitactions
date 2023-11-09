@@ -32,7 +32,7 @@ jobs:
       #     status: Failure
           
       - name : Notify to the developer if PR title validation fail
-        if: ${{ success() }}
+        if: ${{ !success() }}
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
