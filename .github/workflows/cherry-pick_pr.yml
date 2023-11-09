@@ -39,11 +39,30 @@ jobs:
           text: ${{ github.event.commits[0].message }}
           regex: '^/FIX+\([A-Z]+\-[0-9]+\)+\:/'
 
-      - if: ${{ !success() }}
-        run: |
-          echo ${{steps.regex-match.outputs.match}}
-
+      # - if: ${{ !success() }}
+      #   run: |
+      #     echo ${{steps.regex-match.outputs.match}}
       
+      - name: "Checking commit-message format..."
+        if: $![[ $github.event.commits[0].message =~ '^\[(hotfix|\w+\-[0-9]+)\]( \w+)+$' ]];then
+            echo -e "Your commit-message format is not valid:\n$COMMIT_MSG\n"
+            echo "Valid format examples:"
+            echo "[PSBO-123] My commit message"
+            echo "[hotfix] My commit message"
+            exit 1
+          else
+            echo "Well done! Your commit-message is valid."
+            exit 0
+          fi
+        uses: neonidian/teams-notify-build-status@v3
+        with:
+          webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
+          message: >-
+            Hi ${{github.actor}},
+            
+            We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
+          status: Failure
+
 
         # if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
         # run: |
