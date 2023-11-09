@@ -16,22 +16,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull --no-commit --no-ff origin main
-         
-
-      # - name : Notify to the developer if conflicts found
-      #   uses: neonidian/teams-notify-build-status@v3
-      #   if: ${{ !success() }} 
-      #   with:
-      #     webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
-      #     message: >-
-      #       Hi ${{github.actor}},
-
-      #       Failed to create PR, Your recent commit ${{ github.event.commits[0].message }} has merge conflicts.
-            
-      #       Please raise the PR manually.
-      #     status: Failure
+  
           
-      - name : Notify to the developer if PR title validation fail
+      - name : Validate PR title
         if: ${{ !success() }}
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
@@ -43,44 +30,19 @@ jobs:
           echo "${{steps.regex-match.outputs.match}}"
           echo "Well done! Your commit-message is valid."
       
-      # - if: ${{ !success() && !startsWith(github.event.commits[0].message, 'FIX(') }};then
-      #       echo -e "Your commit-message format is not valid:\n$github.event.commits[0].message\n"
-      #       echo "Valid format examples:"
-      #       echo "[PSBO-123] My commit message"
-      #       echo "[hotfix] My commit message"
-      #       exit 1
-      #     else
-      #       echo "Well done! Your commit-message is valid."
-      #       exit 0
-      #     fi
-      #   # uses: neonidian/teams-notify-build-status@v3
-      #   # with:
-      #   #   webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
-      #   #   message: >-
-      #   #     Hi ${{github.actor}},
-            
-      #   #     We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
-      #   #   status: Failure
-
-
-      #   # if: ${{ !success() && !startsWith('FIX',github.event.commits[0].message) && !contains(fromJson('["-",":"]'), github.event.commits[0].message)}} 
-      #   # run: |
-      #   #   echo "Test Pass with valid PR"
-      #   #   echo  ${{startsWith('FIX',github.event.commits[0].message)}}
-      #   #   echo  ${{contains('FIX', github.event.commits[0].message)}}
-      #   #   echo  ${{github.event.commits[0].message}}
-      #   # uses: neonidian/teams-notify-build-status@v3
-      #   # with:
-      #   #   webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
-      #   #   message: >-
-      #   #     Hi ${{github.actor}},
-            
-      #   #     We require pull request titles to follow the PR Title Conventions and it looks like your proposed title needs to be adjusted.
-      #   #   status: Failure
+      - name : Notify developer if PR title validation falied
+        if: ${{ !success() && steps.regex-match.outputs.match == '' }}
+        uses: neonidian/teams-notify-build-status@v3
+        with:
+          webhookUrl: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL }}
+          message: >-
+            Hi ${{github.actor}},
+            We require pull request titles to follow the PR Title Conventions and it looks like your proposed title ${{github.event.commits[0].message}} needs to be adjusted.
+          status: Failure
 
 
       - name: Create Cherry-pick PR
-        if: ${{ startsWith(github.ref, 'refs/heads/release') && success() }}
+        if: ${{ startsWith(github.ref, 'refs/heads/release') && success() &&  steps.regex-match.outputs.match != '' }}
         uses: devops-infra/action-pull-request@v0.5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
