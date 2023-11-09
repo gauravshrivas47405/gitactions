@@ -39,9 +39,9 @@ jobs:
           text: ${{ github.event.commits[0].message }}
           regex: '/^FIX+\([A-Z]+\-[0-9]+\)+\:/'
 
-      - if: ${{ steps.regex-match.outputs.match != null }}
-        run: |
-          echo ${{steps.regex-match.outputs.match}}
+   
+      - run: |
+          echo "${{steps.regex-match.outputs.match}}"
           echo "Well done! Your commit-message is valid."
       
       # - if: ${{ !success() && !startsWith(github.event.commits[0].message, 'FIX(') }};then
